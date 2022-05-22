@@ -1,16 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
 html,
 body {
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background-color: black;
 }
 
 a {
   color: inherit;
-  text-decoration: none;
+  text-decoration: underline;
+}
+
+a:hover, a:focus, a:active {
+  text-decoration: underline;
+  color: rgb(195, 245, 59);
 }
 
 * {
   box-sizing: border-box;
+}
+
+h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+}
+
+p {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+
+.dataheader {
+  background-color: white;
+  margin: 10px;
+  padding: 10px;
+  border: 1px black solid;
+
+}
+
+.askInfoBlobs {
+  display: grid;
+}
+
+.askInfoBlobsCleaned {
+  width: 100%;
+  display: grid;
+  grid-template: 1fr / .4fr 1fr;
+  border: 1px black solid;
+} 
+
+.dataFields {
+/*   border: 1px red solid; */
+  display: grid;
+  grid-template: repeat(6, 1fr) / 1fr;
+  background-color: black;
+  grid-gap: 1px;
+}
+
+.dataValues {
+/*   border: 1px red solid; */
+  display: grid;
+  grid-template: repeat(6, 1fr) / 1fr;
+  background-color: black;
+  grid-gap: 1px;
+  
+}
+
+.dataFieldsIndividuals {
+/*   border: 1px black solid; */
+  background-color: white;
+}
+
+.dataValuesIndividuals {
+/*   border: 1px black solid; */
+  background-color: white;
+  border-left: 1px solid black;
+}
+
+.bountyHeaderAndDataWrapper {
+/*   bordeR: 1px red solid; */
+  width: 100%;
 }
