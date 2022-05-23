@@ -1,4 +1,6 @@
-import Dropdown from './dropdown';
+import FieldSort from './fieldSort';
+import Dropdown from './fieldSort';
+import FieldSortDirection from './fieldSortDirection';
 
 const DisplayDataHeader = ({ asks }) => {
   
@@ -8,7 +10,8 @@ const DisplayDataHeader = ({ asks }) => {
         <h3 className="ml-5 mr-5 self-center">   
           {`${ asks ? asks.length : null}` + " ACTIVE LISTINGS SORTED BY"} 
         </h3>
-        <Dropdown  />
+        <FieldSort />
+        <FieldSortDirection />
       </div>
     </>
   ) 

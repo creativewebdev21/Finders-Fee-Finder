@@ -19,11 +19,58 @@ const APIURL = "https://indexer-prod-mainnet.zora.co/v1/graphql";
 // link to zora rinkeby indexer: https://indexer-dev-rinkeby.zora.co/v1/graphql
 // link to zora mainnet indexer: https://indexer-prod-mainnet.zora.co/v1/graphql
 
+const v3AsksQuery = ` 
+query {
+  V3Ask(
+    where: 
+    {
+      status: {_eq: "ACTIVE"}, 
+      findersFeeBps: {_neq: 0},
+      askCurrency: {_eq: "0x0000000000000000000000000000000000000000"}    
+    }
+    limit: 100
+    offset: 0
+  ) {
+    address
+    askCurrency
+    askPrice
+    findersFeeBps
+    seller
+    sellerFundsRecipient
+    tokenContract  
+    tokenId
+  }
+}
+`
+
+const v3AsksAggregateQuery = ` 
+query {
+V3Ask_aggregate(
+  where:
+  {
+    status: {_eq: "ACTIVE"}
+    findersFeeBps: {_neq: 0},
+    askCurrency: {_eq: "0x0000000000000000000000000000000000000000"}
+  }
+) {
+  aggregate {
+    count
+  }
+}
+}
+`
+
+const client = createClient({
+url: APIURL
+})
+
 
 export default function Home() {
+  const [askCount, setAskCount] = useState();
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);   
   const { variableState, setVariableState } = useAppContext()
+  const { variableState2, setVariableState2 } = useAppContext()
 
   const enrichData = (arrayToSort, sortParam) => {
     return arrayToSort.sort((ask1, ask2) => {
@@ -31,15 +78,19 @@ export default function Home() {
       ask2.simpleETH = Number(ethers.utils.formatUnits((ask2.askPrice), "ether"));
       ask1.totalBounty = ask1.simpleETH * (ask1.findersFeeBps / 10000); 
       ask2.totalBounty = ask2.simpleETH * (ask2.findersFeeBps / 10000);
-      return ask2[sortParam] - ask1[sortParam]
+      if ( variableState2.directionValue === "DESCENDING") {
+        return ask2[sortParam] - ask1[sortParam]
+      } else {
+        return ask1[sortParam] - ask2[sortParam]
+      }
     })
   }
 
+  const generateCalls = (numCalls) => {
+    const callArray = [];
 
-  const fetchData = async () => {
-    /* console.log("top level quey cleaned: ", query.queryValue) */
-    console.log("fetch data")
-    const indexerQuery = ` 
+    for (let i = 0; i < numCalls; i++ ) {
+      let call = ` 
       query {
         V3Ask(
           where: 
@@ -49,6 +100,7 @@ export default function Home() {
             askCurrency: {_eq: "0x0000000000000000000000000000000000000000"}    
           }
           limit: 100
+          offset: ${i * 100}
         ) {
           address
           askCurrency
@@ -59,25 +111,76 @@ export default function Home() {
           tokenContract  
           tokenId
         }
-      }
-    `
+      }`
+      callArray.push(call)
+    } 
+    return callArray
+  }
 
-    const client = createClient({
-      url: APIURL
-    })
+  const generateQueries = (array, length) => {
+    const promises = []
+    for (let i = 0; i < length; i++) {
+      let promise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          console.log("promise # " + (i + 1) + " has resolved");
+          resolve(client.query(array[i]));
+        }, 1000 * (i + 1))
+      })
+      promises.push(promise)
+    }
+    console.log("promises array :", promises);
+    return promises
+  }
+
+
+  const fetchData = async () => {
+    /* console.log("top level quey cleaned: ", query.queryValue) */
+    console.log("fetch data")
+
+/*     const querySearchTerms = {
+      status: {_eq: "ACTIVE"}, 
+      findersFeeBps: {_neq: 0},
+      askCurrency: {_eq: "0x0000000000000000000000000000000000000000"} 
+    } */
+
+
 
     try {
       setLoading(true);
-      const {data, error} = await client.query(indexerQuery).toPromise();
-      if(error){
+
+      // await the coutn and put in state
+
+      const aggData = await client.query(v3AsksAggregateQuery).toPromise()
+      const aggDataCount = aggData.data.V3Ask_aggregate.aggregate.count
+      const numOfCallsRequired = Math.ceil(aggDataCount / 100)
+      setAskCount(aggDataCount)
+
+      const finalV3CallArray = generateCalls(numOfCallsRequired);
+      console.log("finalV3CallArray", finalV3CallArray);
+
+      const finalV3Promises = generateQueries(finalV3CallArray, numOfCallsRequired)
+      console.log("finalV3Promises", finalV3Promises);
+      // const bigBlob = Promise.all(client.query(finalV3CallArray))
+      //console.log("bigblob", bigBlob);
+
+      Promise.all(finalV3Promises).then((results) => {
+        console.log("after stuff is resolved before appended: ", results)
+        const resolvedArray = [results]
+        console.log("resolved array: ", resolvedArray)
+      })
+
+      const {data, error} = await client.query(finalV3CallArray[0]).toPromise();
+      //^ make this into a long ass function that returns the big array t
+      // for loop where you define the queries, and then call them in a promise.all
+      /// will be something like for the amount of call syou need to make, run promise.a;;
+
+
+
+      if (error){
         throw new Error("Grapqhl failed " + error);
       }
       const cleanedIndexerData = data.V3Ask
-      console.log("cleanedIndexerData before its set", cleanedIndexerData);
-
       const newArray = enrichData(cleanedIndexerData, variableState.queryValue);
-      console.log("newArray: ", newArray)
-
       setData(newArray);
 
     } catch(error){
@@ -92,7 +195,7 @@ export default function Home() {
   useEffect( () => {
       fetchData();
     },
-    [variableState] // this is passing variableState in as a dependency, so whenever it changes useEffect will run again
+    [variableState, variableState2] // this is passing variableState in as a dependency, so whenever it changes useEffect will run again
   )
 
   return (
@@ -112,7 +215,10 @@ export default function Home() {
         FIND BUYERS FOR THE LISTINGS BELOW AND RECEIVE THE FINDER'S FEE
         </h2>
         <div>
-          {"" + variableState.queryValue}
+          {"current sort field: " + variableState.queryValue}
+        </div>
+        <div>
+          {"sorting thru " + askCount + " asks"}
         </div>
         <h2>
           <a
