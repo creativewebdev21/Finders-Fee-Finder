@@ -5,11 +5,11 @@ import { useAppContext } from '../context/state';
 
   const people = [
     { name: 'CURRENCY', queryValue: 'askCurrency' },
-    { name: 'PRICE', queryValue: 'askPrice' },
+    { name: 'PRICE', queryValue: 'simpleETH' },
     { name: 'SELLER', queryValue: 'seller' },
     { name: 'NFT CONTRACT', queryValue: 'tokenContract' },
     { name: 'NFT ID', queryValue: 'tokenId' },
-    { name: "FINDER'S FEE", queryValue: 'findersFeeBps' }
+    { name: "FINDER'S FEE", queryValue: 'totalBounty' }
   ]
 
   export default function Dropdown() {

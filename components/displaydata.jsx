@@ -4,6 +4,7 @@ const DisplayData = ({ asks }) => {
 /*    console.log("asks = ", asks[0]) */
 /*    console.log("index = ". asks[index]) */
 
+
 const commonCurrencies = {
    "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48": "USDC",
    "0x0000000000000000000000000000000000000000": "ETH"
@@ -32,13 +33,13 @@ const commonCurrencies = {
                            <div style={{ backgroundColor: "yellow"}}className="dataFieldsIndividuals"><b>FINDER'S FEE</b></div>                        
                         </div>
                         <div className="dataValues">                        
-                           <div className="dataValuesIndividuals" > {"" + asks[index].askCurrency}</div>
-                           <div className="dataValuesIndividuals"> {"" + ethers.utils.formatUnits((asks[index].askPrice), "ether") + " ETH"}</div>
+                           <div className="dataValuesIndividuals" > {"" + ask.askCurrency}</div>
+                           <div className="dataValuesIndividuals"> {"" + ask.simpleETH+ " ETH"}</div>
 {/*                            <div className="dataValuesIndividuals"> {"" + (asks[index].findersFeeBps / 100) + "%"}</div> */}
-                           <div className="dataValuesIndividuals"> {"" + asks[index].seller}</div>
-                           <div className="dataValuesIndividuals"> {"" + asks[index].tokenContract}</div>               
-                           <div className="dataValuesIndividuals"> {"" + asks[index].tokenId}</div>
-                           <div style={{ backgroundColor: "yellow"}} className="dataValuesIndividuals"><b>{"" + ethers.utils.formatUnits((asks[index].askPrice * (asks[index].findersFeeBps / 1000 )).toString(), "ether") + " ETH"}</b></div>                                                                          
+                           <div className="dataValuesIndividuals"> {"" + ask.seller}</div>
+                           <div className="dataValuesIndividuals"> {"" + ask.tokenContract}</div>               
+                           <div className="dataValuesIndividuals"> {"" + ask.tokenId}</div>
+                           <div style={{ backgroundColor: "yellow"}} className="dataValuesIndividuals"><b>{"" + ask.totalBounty + " ETH"}</b></div>                                                                          
                         </div>                                                                                                     
                      </div>
                   </div>

@@ -3,7 +3,7 @@ import { createContext, useContext, useState, useEffect, useMemo } from 'react';
 const AppContext = createContext(null);
 
 export function AppWrapper({ children }) {
-   const [variableState, setVariableState] = useState({name: "FINDER'S FEE", queryValue: 'findersFeeBps'});
+   const [variableState, setVariableState] = useState({name: "FINDER'S FEE", queryValue: 'totalBounty'});
 
    useEffect(() => {
 

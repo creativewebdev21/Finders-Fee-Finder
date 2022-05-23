@@ -1,6 +1,7 @@
 // create-next-app boilterplate
 import Head from 'next/head'
 import Image from 'next/image'
+import { ethers } from "ethers"
 
 // rainbowkit import
 import { ConnectButton } from '@rainbow-me/rainbowkit';
@@ -21,13 +22,19 @@ const APIURL = "https://indexer-prod-mainnet.zora.co/v1/graphql";
 
 export default function Home() {
   const [data, setData] = useState();
-  const [loading, setLoading] = useState(false); 
-  
+  const [loading, setLoading] = useState(false);   
   const { variableState, setVariableState } = useAppContext()
 
-  const harmlessFunction = () => {
-    console.log("hello");
+  const enrichData = (arrayToSort, sortParam) => {
+    return arrayToSort.sort((ask1, ask2) => {
+      ask1.simpleETH = Number(ethers.utils.formatUnits((ask1.askPrice), "ether")); 
+      ask2.simpleETH = Number(ethers.utils.formatUnits((ask2.askPrice), "ether"));
+      ask1.totalBounty = ask1.simpleETH * (ask1.findersFeeBps / 10000); 
+      ask2.totalBounty = ask2.simpleETH * (ask2.findersFeeBps / 10000);
+      return ask2[sortParam] - ask1[sortParam]
+    })
   }
+
 
   const fetchData = async () => {
     /* console.log("top level quey cleaned: ", query.queryValue) */
@@ -38,10 +45,10 @@ export default function Home() {
           where: 
           {
             status: {_eq: "ACTIVE"}, 
-            findersFeeBps: {_neq: 0}    
+            findersFeeBps: {_neq: 0},
+            askCurrency: {_eq: "0x0000000000000000000000000000000000000000"}    
           }
-          order_by: { ${variableState.queryValue}: desc }
-          limit: 50
+          limit: 100
         ) {
           address
           askCurrency
@@ -66,7 +73,12 @@ export default function Home() {
         throw new Error("Grapqhl failed " + error);
       }
       const cleanedIndexerData = data.V3Ask
-      setData(cleanedIndexerData);
+      console.log("cleanedIndexerData before its set", cleanedIndexerData);
+
+      const newArray = enrichData(cleanedIndexerData, variableState.queryValue);
+      console.log("newArray: ", newArray)
+
+      setData(newArray);
 
     } catch(error){
       console.error(error.message);
@@ -111,7 +123,7 @@ export default function Home() {
         </h2 >        
         {/* <ConnectButton accountStatus={"address"} /> */}
 
-        {loading ? <ShitData />:   <DisplayDataHeader  asks={data} onChange={harmlessFunction}/>}
+        {loading ? <ShitData />:   <DisplayDataHeader  asks={data} />}
         {loading ? <ShitData />:   <DisplayData asks={data}/>}
 
 
