@@ -1,5 +1,4 @@
 import FieldSort from './fieldSort';
-import Dropdown from './fieldSort';
 import FieldSortDirection from './fieldSortDirection';
 
 const DisplayDataHeader = ({ count }) => {

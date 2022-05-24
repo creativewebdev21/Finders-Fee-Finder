@@ -1,3 +1,25 @@
+import { useNFT, useNFTMetadata } from "@zoralabs/nft-hooks"
+import { NFTPreview } from "@zoralabs/nft-components"
+import NFTRender from "./nftPreview";
+import { Fragment } from "react";
+import Head from "next/head";
+
+const MyNFT = (nft) => {
+   const { data, error } = useNFT(
+      nft.tokenContract,
+      nft.tokenId
+      
+   )
+   console.log("whats the data: ", data )
+   const { metadata } = useNFTMetadata(
+      data && data.metadataURI
+   )
+   console.log("whats the metadata: ", metadata )
+   console.log("whats {data, error, metadata}: ", data + " " + error + " " + metadata)
+   return {data, error, metadata}
+}
+
+
 const DisplayData = ({ asks }) => {
 
 const commonCurrencies = {
@@ -10,10 +32,13 @@ const commonCurrencies = {
          {
             asks 
             ? 
-            asks.map((ask, index) => {
-               return ( 
+            asks.map((ask, index) => {  
+               return (                
                <div key={ask.id} className="dataheader" style={{ width: "75%", marginTop: '10px', color: 'black'}}>  
                   <div className="bountyHeaderAndDataWrapper">
+                     <div className="h-20">
+                        {"placeholder"}
+                     </div>
                      <div className="askInfoBlobsCleaned">
                         <div className="dataFields">
                            <div className="dataFieldsIndividuals" >CURRENCY</div>
@@ -40,10 +65,29 @@ const commonCurrencies = {
    ) 
 }
 
-export const ShitData = () => (
+export const LoadingData = () => (
    <div>
-      Loading 
+      Loading . . .
    </div>
 )
-
 export default DisplayData
+
+// export default function DisplayData({ asks }) {
+//    return (
+//       <Fragment>
+//          <Head>
+//             <title>Demo Next NFT</title>
+//          </Head>
+//          <main>
+//             {asks.map((ask, index) => {
+//                <NFTPreview
+//                   contract={ask.tokenContract}
+//                   id={ask.tokenId}
+//                />
+//             })}
+//          </main>
+//       </Fragment>
+//    )
+// }
+
+

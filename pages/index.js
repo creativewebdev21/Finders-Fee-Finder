@@ -10,39 +10,60 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { createClient } from 'urql';
 import { useEffect, useState } from 'react';
 
-import DisplayData, {ShitData} from '../components/displaydata';
+import DisplayData, {LoadingData} from '../components/displaydata';
 import DisplayDataHeader from '../components/displaydataheader';
 
 import { useAppContext } from '../context/appContext.js'; // import based on where you put it
+import NFTRender from "../components/nftPreview";
+
+//
+import { MediaFetchAgent, Networks } from '@zoralabs/nft-hooks';
+import { NFTPreview } from "@zoralabs/nft-components";
+import { Fragment } from "react";
+//
 
 const APIURL = "https://indexer-prod-mainnet.zora.co/v1/graphql";
+const APIURL2 = "https://api.zora.co/graphql"
 // link to zora rinkeby indexer: https://indexer-dev-rinkeby.zora.co/v1/graphql
 // link to zora mainnet indexer: https://indexer-prod-mainnet.zora.co/v1/graphql
+// link to new zora indexer (works on multiple chains): "https://api.zora.co/graphql"
 
-const v3AsksQuery = ` 
-query {
-  V3Ask(
-    where: 
-    {
-      status: {_eq: "ACTIVE"}, 
-      findersFeeBps: {_neq: 0},
-      askCurrency: {_eq: "0x0000000000000000000000000000000000000000"}    
-    }
-    limit: 100
-    offset: 0
-  ) {
-    id
-    address
-    askCurrency
-    askPrice
-    findersFeeBps
-    seller
-    sellerFundsRecipient
-    tokenContract  
-    tokenId
-  }
-}
-`
+// const newIndexer = ` 
+//   query MyQuery {
+//     markets(filter: {priceFilter: {currencyAddress: "0x0000000000000000000000000000000000000000"}, marketFilters: {marketType: V3_ASK, statuses: ACTIVE}}, pagination: {limit: 500}, networks: {network: ETHEREUM, chain: MAINNET}) {
+//       nodes {
+//         market {
+//           properties {
+//             ... on V3Ask {
+//               address
+//               askCurrency
+//               collectionAddress
+//               seller
+//               tokenId
+//               findersFeeBps
+//               askPrice {
+//                 ethPrice {
+//                   decimal
+//                 }
+//               }
+//               sellerFundsRecipient
+//             }
+//           }
+//           transactionInfo {
+//             transactionHash
+//           }
+//         }
+//         token {
+//           metadata
+//         }
+//       }
+//     }
+//   }
+// `
+
+// const client2 = createClient({
+//   url: APIURL2
+//   })
 
 const v3AsksAggregateQuery = ` 
 query {
@@ -66,7 +87,7 @@ url: APIURL
 })
 
 
-export default function Home() {
+export default function Home(/* {id, nft, metadata } */) {
   const [askCount, setAskCount] = useState();
   const [rawData, setRawData] = useState();
   const [currentData, setCurrentData] = useState(); 
@@ -77,16 +98,13 @@ export default function Home() {
 
   const sortData = (array) => {
     return array.sort((ask1, ask2) => {
-      if ( sortDirection.directionValue === "DESCENDING") {
-        console.log("descending response: ", ask2[sortFilter.queryValue] - ask1[sortFilter.queryValue])
+      if ( sortDirection.directionValue === "DESCENDING") {        
         return ask2[sortFilter.queryValue] - ask1[sortFilter.queryValue]
-      } else {  
-        console.log("ascending response: ", ask1[sortFilter.queryValue] - ask2[sortFilter.queryValue])
+      } else {          
         return ask1[sortFilter.queryValue] - ask2[sortFilter.queryValue]
       } 
     })
   }
-
 
   const enrichData = (arrayToSort) => {
     return arrayToSort.map((ask) => {
@@ -132,7 +150,6 @@ export default function Home() {
     const promises = []
     for (let i = 0; i < length; i++) {
       promises.push(client.query(array[i]).toPromise())
-    // console.log("promises array :", promises);
     }
     return promises
   }
@@ -164,44 +181,20 @@ export default function Home() {
       setAskCount(aggDataCount)
 
       const finalV3CallArray = generateCalls(numOfCallsRequired);
-      // console.log("finalV3CallArray", finalV3CallArray);
 
       const finalV3Promises = generateQueries(finalV3CallArray, numOfCallsRequired)
-      // console.log("finalV3Promises", finalV3Promises);
-      // const bigBlob = Promise.all(client.query(finalV3CallArray))
-      //console.log("bigblob", bigBlob);
 
       const promiseReturns = await runPromises(finalV3Promises);
 
       const promiseResults = concatPromiseResults(promiseReturns);
 
-      // console.log("promise results: ", promiseResults)
-
-      // console.log("gang[0][5].data.V3Ask : ", gang[0][5].data.V3Ask)
-      // Promise.all(finalV3Promises).then((results) => {
-      //   const resolvedArray = [results]
-      //   console.log("results", results)
-      //   console.log("full promise resolved array: ", resolvedArray)
-      // })
-
-
-
-      const {data, error} = await client.query(v3AsksQuery).toPromise();
-      // console.log("actually fetching data again")
-      //^ make this into a long ass function that returns the big array t
-      // for loop where you define the queries, and then call them in a promise.all
-      /// will be something like for the amount of call syou need to make, run promise.a;;
-
-
-
-      if (error){
-        throw new Error("Grapqhl failed " + error);
-      }
-      // const cleanedIndexerData = data.V3Ask
-      // const cleanedIndexerData = data.V3Ask
       const enrichedArray = enrichData(promiseResults);
+
       setRawData(enrichedArray);
       setCurrentData(sortData(enrichedArray)); 
+
+      // const swag = await client2.query(newIndexer).toPromise();
+      // console.log("new indexer test: ", swag);
 
     } catch(error){
       console.error(error.message);
@@ -243,6 +236,15 @@ export default function Home() {
   //       sortDirection
   //   ])
 
+  function fuckingbullshit() {
+    return (
+    <NFTPreview
+      id="5731"
+      contract="0x5180db8F5c931aaE63c74266b211F580155ecac8"
+    />
+    )
+  }
+
   return (
     <div className='px-8 py-0'>
       <Head>
@@ -252,7 +254,6 @@ export default function Home() {
       </Head>
 
       <main className="text-white min-h-screen px-0 py-24 flex flex-1 flex-col  justify-center items-center">
-        
         <h1 className="flex m-0 text-6xl leading-tight">
         ☼ FINDER'S FEE FINDER ☼
         </h1>
@@ -266,51 +267,11 @@ export default function Home() {
             WHAT IS A FINDER'S FEE?
           </a> 
         </h2 >        
+        {/* <NFTPreview initialData={{ nft, metadata }} id={id} /> */}
+        {/* {fuckingbullshit()} */}
+        {loading ? <LoadingData /> : <DisplayDataHeader count={askCount} />}
+        {loading ? <LoadingData /> : <DisplayData asks={currentData}/>}
 
-        {loading ? <ShitData /> : <DisplayDataHeader count={askCount} />}
-        {loading ? <ShitData /> : <DisplayData asks={currentData}/>}
-
-
-
-         
-
-{/*         <div>
-          {"There are " + dataLength + ' active asks w/ finders fees. Here is the metadata : ' + JSON.stringify(data, null, 3)}
-        </div> */}
-        
-{/*         <div>
-          {"" + indexerData}
-        </div>
- */}
-{/*         <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div> */}
       </main>
 
       <footer className="flex flex-1 px-0 py-8 justify-center items-center border-t-1 border-solid border-t-white">
@@ -328,3 +289,26 @@ export default function Home() {
     </div>
   )
 }
+
+/* export async function getServerSideProps() {
+  // zNFT id to render
+  const id = "3158";
+  // Create the fetcher object
+  const fetcher = new MediaFetchAgent(Networks.MAINNET);
+  // Fetch the NFT information on the server-side
+  const nft = await fetcher.loadNFTData(id);
+  const metadata = await fetcher.fetchIPFSMetadata(nft.nft.metadataURI);
+
+  // Function required to remove `undefined` from JSON passed to client.
+  function prepareJson(json) {
+    return JSON.parse(JSON.stringify(json));
+  }
+
+  return {
+    props: prepareJson({
+      nft: nft,
+      metadata,
+      id,
+    })
+  };
+} */
