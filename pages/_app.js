@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 
-import { AppWrapper } from '../context/state.js'; // import based on where you put it
+import { AppWrapper } from '../context/appContext.js'; // import based on where you put it
 
 import '@rainbow-me/rainbowkit/styles.css';
 
