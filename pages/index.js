@@ -45,18 +45,18 @@ query {
 
 const v3AsksAggregateQuery = ` 
 query {
-V3Ask_aggregate(
-  where:
-  {
-    status: {_eq: "ACTIVE"}
-    findersFeeBps: {_neq: 0},
-    askCurrency: {_eq: "0x0000000000000000000000000000000000000000"}
+  V3Ask_aggregate(
+    where:
+    {
+      status: {_eq: "ACTIVE"}
+      findersFeeBps: {_neq: 0},
+      askCurrency: {_eq: "0x0000000000000000000000000000000000000000"}
+    }
+  ) {
+    aggregate {
+      count
+    }
   }
-) {
-  aggregate {
-    count
-  }
-}
 }
 `
 
@@ -79,8 +79,12 @@ export default function Home() {
       ask1.totalBounty = ask1.simpleETH * (ask1.findersFeeBps / 10000); 
       ask2.totalBounty = ask2.simpleETH * (ask2.findersFeeBps / 10000);
       if ( variableState2.directionValue === "DESCENDING") {
+/*         console.log("descend sort param check:", sortParam)
+        console.log("descdending sort check:", ask2[sortParam], ask1[sortParam]) */
         return ask2[sortParam] - ask1[sortParam]
       } else {
+/*         console.log("a sort param check:", sortParam)
+        console.log("ascending sort check:", ask1[sortParam], ask2[sortParam]) */
         return ask1[sortParam] - ask2[sortParam]
       }
     })
@@ -123,7 +127,7 @@ export default function Home() {
       let promise = new Promise((resolve, reject) => {
         setTimeout(() => {
           console.log("promise # " + (i + 1) + " has resolved");
-          resolve(client.query(array[i]));
+          resolve(client.query(array[i]).toPromise());
         }, 1000 * (i + 1))
       })
       promises.push(promise)
@@ -169,7 +173,8 @@ export default function Home() {
         console.log("resolved array: ", resolvedArray)
       })
 
-      const {data, error} = await client.query(finalV3CallArray[0]).toPromise();
+      const {data, error} = await client.query(v3AsksQuery).toPromise();
+      console.log("actually fetching data again")
       //^ make this into a long ass function that returns the big array t
       // for loop where you define the queries, and then call them in a promise.all
       /// will be something like for the amount of call syou need to make, run promise.a;;
