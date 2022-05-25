@@ -71,8 +71,7 @@ query {
     where:
     {
       status: {_eq: "ACTIVE"}
-      findersFeeBps: {_neq: 0},
-      askCurrency: {_eq: "0x0000000000000000000000000000000000000000"}
+      findersFeeBps: {_neq: 0},  
     }
   ) {
     aggregate {
@@ -127,7 +126,7 @@ export default function Home(/* {id, nft, metadata } */) {
             findersFeeBps: {_neq: 0},
             askCurrency: {_eq: "0x0000000000000000000000000000000000000000"}    
           }
-          limit: 100
+          limit: 10
           offset: ${i * 100}
         ) {
           id
@@ -276,39 +275,12 @@ export default function Home(/* {id, nft, metadata } */) {
 
       <footer className="flex flex-1 px-0 py-8 justify-center items-center border-t-1 border-solid border-t-white">
         <a className="flex justify-center items-center grow"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          href="https://www.twitter.com/0xTranqui"
         >
-          Powered by{' '}
-          <span className="h-4 ml-2">
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
+          tranqui.eth
         </a>
       </footer>
     </div>
   )
 }
 
-/* export async function getServerSideProps() {
-  // zNFT id to render
-  const id = "3158";
-  // Create the fetcher object
-  const fetcher = new MediaFetchAgent(Networks.MAINNET);
-  // Fetch the NFT information on the server-side
-  const nft = await fetcher.loadNFTData(id);
-  const metadata = await fetcher.fetchIPFSMetadata(nft.nft.metadataURI);
-
-  // Function required to remove `undefined` from JSON passed to client.
-  function prepareJson(json) {
-    return JSON.parse(JSON.stringify(json));
-  }
-
-  return {
-    props: prepareJson({
-      nft: nft,
-      metadata,
-      id,
-    })
-  };
-} */

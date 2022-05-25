@@ -1,10 +1,53 @@
 import { useNFT, useNFTMetadata } from "@zoralabs/nft-hooks"
-import { NFTPreview } from "@zoralabs/nft-components"
-import NFTRender from "./nftPreview";
-import { Fragment } from "react";
-import Head from "next/head";
+import { NFTPreview, MediaConfiguration } from "@zoralabs/nft-components"
+import { Popover } from "@headlessui/react"
 
-const MyNFT = (nft) => {
+const currencyCheck = (currency) => {
+   if ( currency === "0x0000000000000000000000000000000000000000") {
+      return "ETH"
+   }  else if ( currency === "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48") {
+      return "USDC"
+   }  else {
+      return "NON INDEXED CURRENCY"
+   }
+}
+
+function MyPopover({ nftInfo }) {
+   const yessir = nftInfo
+   console.log("yessir: ", yessir)
+   return (
+      <Popover className="relative mb-2 flex flex-row justify-center">
+         <Popover.Button
+            className="text-[#7f7f7f] p-1 border-2 border-solid border-[#7f7f7f]"
+         >
+            MORE INFO
+         </Popover.Button>
+         <Popover.Panel className="absolute z-10">
+            <div className="askInfoBlobsCleaned">
+               <div className="dataFields">
+                  <div className="dataFieldsIndividuals" >CURRENCY</div>
+                  <div className="dataFieldsIndividuals" >PRICE</div>
+                  <div className="dataFieldsIndividuals" >SELLER</div>
+                  <div className="dataFieldsIndividuals" >NFT CONTRACT</div>
+                  <div className="dataFieldsIndividuals" >NFT ID</div>
+                  <div className="dataFieldsIndividuals">FINDER'S FEE</div>                        
+               </div>
+               <div className="dataValues">                        
+                  <div className="dataValuesIndividuals" > {"" + currencyCheck(nftInfo.askCurrency)}</div>
+                  <div className="dataValuesIndividuals"> {"" + nftInfo.simpleETH + " " + currencyCheck(nftInfo.askCurrency)}</div>
+                  <div className="dataValuesIndividuals"> {"" + nftInfo.seller}</div>
+                  <div className="dataValuesIndividuals"> {"" + nftInfo.tokenContract}</div>               
+                  <div className="dataValuesIndividuals"> {"" + nftInfo.tokenId}</div>
+                  <div className="dataValuesIndividuals">{"" + nftInfo.totalBounty + " " + currencyCheck(nftInfo.askCurrency)}</div>                                                                          
+               </div>                                                                                                     
+            </div>
+         </Popover.Panel>
+      </Popover>
+   )
+} 
+
+
+/* const MyNFT = (nft) => {
    const { data, error } = useNFT(
       nft.tokenContract,
       nft.tokenId
@@ -17,15 +60,10 @@ const MyNFT = (nft) => {
    console.log("whats the metadata: ", metadata )
    console.log("whats {data, error, metadata}: ", data + " " + error + " " + metadata)
    return {data, error, metadata}
-}
+} */
 
 
 const DisplayData = ({ asks }) => {
-
-const commonCurrencies = {
-   "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48": "USDC",
-   "0x0000000000000000000000000000000000000000": "ETH"
-}
 
    return (
       <>
@@ -33,42 +71,46 @@ const commonCurrencies = {
             asks 
             ? 
             asks.map((ask, index) => {
-/*                const iframeSRC = "https://embed.zora.co/" + ask.tokenContract + "/" + ask.tokenId
-               console.log("iframeSRC = ", iframeSRC) */
                return (                
-               <div key={ask.id} className="dataheader" style={{ width: "75%", marginTop: '10px', color: 'black'}}>  
+               <div key={ask.id} className="dataheader">  
                   <div className="bountyHeaderAndDataWrapper">
-{/*                      <NFTPreview
-                        contract={ask.tokenContract}
-                        id={ask.tokenId}
-                     /> */}
-{/*                   <div>
-                     <iframe 
-                     src={iframeSRC} 
-                     width="300px" 
-                     height="300px" 
-                     scrolling="no"                   
+                     <MediaConfiguration // link to style docs: https://ourzora.github.io/nft-components/?path=/docs/renderer-mediaconfiguration--page
+                        strings={{
+                           CARD_OWNED_BY: "OWNER: ",
+                           CREATED: "",
+                           COLLECTED: "",
+                           CARD_CREATED_BY: "CREATOR: ",
+                           OWNER: ""
+                        }}
+                        
+                        style={{                
+                           theme: { 
+                              previewCard: { background: "black" }, 
+                              linkColor: "#c3f53b", 
+                              titleFont: "color: #c3f53b",
+                              bodyFont: "color: white",  
+                              audioColors: { waveformColor: "white", progressColor: "#c3f53b"},
+                              useZoraUsernameResolution: "false",
+                              borderStyle: "4px purple solid",
+                              spacingUnit: "5px",
+                              textBlockPadding: "10px",
+                              placeHolderColor: "black",
+                              lineSpacing: "25"                              
+                           } 
+                        }}
                      >
-                     </iframe>
-                  </div> */}
-                     <div className="askInfoBlobsCleaned">
-                        <div className="dataFields">
-                           <div className="dataFieldsIndividuals" >CURRENCY</div>
-                           <div className="dataFieldsIndividuals" >PRICE</div>
-                           <div className="dataFieldsIndividuals" >SELLER</div>
-                           <div className="dataFieldsIndividuals" >NFT CONTRACT</div>
-                           <div className="dataFieldsIndividuals" >NFT ID</div>
-                           <div style={{ backgroundColor: "yellow"}}className="dataFieldsIndividuals"><b>FINDER'S FEE</b></div>                        
-                        </div>
-                        <div className="dataValues">                        
-                           <div className="dataValuesIndividuals" > {"" + ask.askCurrency}</div>
-                           <div className="dataValuesIndividuals"> {"" + ask.simpleETH+ " ETH"}</div>
-                           <div className="dataValuesIndividuals"> {"" + ask.seller}</div>
-                           <div className="dataValuesIndividuals"> {"" + ask.tokenContract}</div>               
-                           <div className="dataValuesIndividuals"> {"" + ask.tokenId}</div>
-                           <div style={{ backgroundColor: "yellow"}} className="dataValuesIndividuals"><b>{"" + ask.totalBounty + " ETH"}</b></div>                                                                          
-                        </div>                                                                                                     
+                        <NFTPreview
+                           contract={ask.tokenContract.toString()}
+                           id={ask.tokenId.toString()}
+                           showBids={false}
+                           showPerpetual={false}
+
+                        />
+                     </MediaConfiguration>
+                     <div className="text-[#c3f53b] p-1 mb-2 flex flex-row justify-center text-xl">
+                        {"FINDER'S FEE : " + ask.totalBounty + " ETH"}
                      </div>
+                     <MyPopover nftInfo={ask} />                        
                   </div>
                </div>)
             }): null
@@ -84,22 +126,26 @@ export const LoadingData = () => (
 )
 export default DisplayData
 
-// export default function DisplayData({ asks }) {
-//    return (
-//       <Fragment>
-//          <Head>
-//             <title>Demo Next NFT</title>
-//          </Head>
-//          <main>
-//             {asks.map((ask, index) => {
-//                <NFTPreview
-//                   contract={ask.tokenContract}
-//                   id={ask.tokenId}
-//                />
-//             })}
-//          </main>
-//       </Fragment>
-//    )
-// }
-
-
+export async function getServerSideProps() {
+   // zNFT id to render
+   const id = "3158";
+   // Create the fetcher object
+   const fetcher = new MediaFetchAgent(Networks.MAINNET);
+   // Fetch the NFT information on the server-side
+   const nft = await fetcher.loadNFTData(id);
+   const metadata = await fetcher.fetchIPFSMetadata(nft.nft.metadataURI);
+ 
+   // Function required to remove `undefined` from JSON passed to client.
+   function prepareJson(json) {
+     return JSON.parse(JSON.stringify(json));
+   }
+ 
+   return {
+     props: prepareJson({
+       nft: nft,
+       metadata,
+       id,
+     })
+   };
+ }
+ 

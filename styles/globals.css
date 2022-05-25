@@ -10,6 +10,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   background-color: black;
+  color: white;
 }
 
 a {
@@ -19,7 +20,7 @@ a {
 
 a:hover, a:focus, a:active {
   text-decoration: underline;
-  color: rgb(195, 245, 59);
+  color: #c3f53b;
 }
 
 * {
@@ -38,11 +39,15 @@ p {
 }
 
 .dataheader {
-  background-color: white;
+  background-color: black;
   margin: 10px;
   padding: 10px;
-  border: 1px black solid;
-
+  border: 4px purple solid;
+  width: fit-content;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  color: white;
+  width: fit-content;
 }
 
 .askInfoBlobs {
@@ -52,15 +57,15 @@ p {
 .askInfoBlobsCleaned {
   width: 100%;
   display: grid;
-  grid-template: 1fr / .4fr 1fr;
-  border: 1px black solid;
+  grid-template: 1fr / 1fr 1fr;
+  border: 1px white solid;
 } 
 
 .dataFields {
 /*   border: 1px red solid; */
   display: grid;
   grid-template: repeat(6, 1fr) / 1fr;
-  background-color: black;
+  background-color: white;
   grid-gap: 1px;
 }
 
@@ -68,23 +73,33 @@ p {
 /*   border: 1px red solid; */
   display: grid;
   grid-template: repeat(6, 1fr) / 1fr;
-  background-color: black;
+  background-color: white;
   grid-gap: 1px;
-  
 }
 
 .dataFieldsIndividuals {
 /*   border: 1px black solid; */
-  background-color: white;
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: .3rem;
 }
 
 .dataValuesIndividuals {
 /*   border: 1px black solid; */
-  background-color: white;
-  border-left: 1px solid black;
+  background-color: black;
+  border-left: 1px solid white;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: .3rem;
 }
 
 .bountyHeaderAndDataWrapper {
 /*   bordeR: 1px red solid; */
-  width: 100%;
+  background-color: black;
+  width: auto;
 }
