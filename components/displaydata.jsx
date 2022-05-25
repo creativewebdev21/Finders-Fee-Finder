@@ -100,6 +100,7 @@ const DisplayData = ({ asks }) => {
                         }}
                      >
                         <NFTPreview
+                           useBetaIndexer="true"
                            contract={ask.tokenContract.toString()}
                            id={ask.tokenId.toString()}
                            showBids={false}
