@@ -245,6 +245,7 @@ export default function Home(/* {id, nft, metadata } */) {
     )
   }
 
+
   return (
     <div className='px-8 py-0'>
       <Head>
@@ -253,7 +254,7 @@ export default function Home(/* {id, nft, metadata } */) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="text-white min-h-screen px-0 py-24 flex flex-1 flex-col  justify-center items-center">
+      <main className="text-white min-h-screen px-0 py-24 flex flex-1 flex-col  justify-center items-center">                        
         <h1 className="flex m-0 text-6xl leading-tight">
         ☼ FINDER'S FEE FINDER ☼
         </h1>
@@ -271,7 +272,6 @@ export default function Home(/* {id, nft, metadata } */) {
         {/* {fuckingbullshit()} */}
         {loading ? <LoadingData /> : <DisplayDataHeader count={askCount} />}
         {loading ? <LoadingData /> : <DisplayData asks={currentData}/>}
-
       </main>
 
       <footer className="flex flex-1 px-0 py-8 justify-center items-center border-t-1 border-solid border-t-white">

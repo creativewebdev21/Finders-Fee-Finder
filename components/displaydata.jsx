@@ -32,13 +32,25 @@ const commonCurrencies = {
          {
             asks 
             ? 
-            asks.map((ask, index) => {  
+            asks.map((ask, index) => {
+/*                const iframeSRC = "https://embed.zora.co/" + ask.tokenContract + "/" + ask.tokenId
+               console.log("iframeSRC = ", iframeSRC) */
                return (                
                <div key={ask.id} className="dataheader" style={{ width: "75%", marginTop: '10px', color: 'black'}}>  
                   <div className="bountyHeaderAndDataWrapper">
-                     <div className="h-20">
-                        {"placeholder"}
-                     </div>
+{/*                      <NFTPreview
+                        contract={ask.tokenContract}
+                        id={ask.tokenId}
+                     /> */}
+{/*                   <div>
+                     <iframe 
+                     src={iframeSRC} 
+                     width="300px" 
+                     height="300px" 
+                     scrolling="no"                   
+                     >
+                     </iframe>
+                  </div> */}
                      <div className="askInfoBlobsCleaned">
                         <div className="dataFields">
                            <div className="dataFieldsIndividuals" >CURRENCY</div>
