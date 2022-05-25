@@ -1,6 +1,7 @@
 import { useNFT, useNFTMetadata } from "@zoralabs/nft-hooks"
 import { NFTPreview, MediaConfiguration } from "@zoralabs/nft-components"
 import { Popover } from "@headlessui/react"
+import Link from 'next/link';
 
 const currencyCheck = (currency) => {
    if ( currency === "0x0000000000000000000000000000000000000000") {
@@ -12,9 +13,19 @@ const currencyCheck = (currency) => {
    }
 }
 
+const truncateNumber = (number) => {
+   const stringNumber = number.toString()
+   console.log("what stringnumber is getting passed: ", stringNumber)
+   if ( stringNumber.length > 6) {
+      const shortenNumber = number.toFixed(4)
+      console.log("checking shortened number: ", shortenNumber)
+      return shortenNumber
+   } else {
+      return number
+   }
+}
+
 function MyPopover({ nftInfo }) {
-   const yessir = nftInfo
-   console.log("yessir: ", yessir)
    return (
       <Popover className="relative mb-2 flex flex-row justify-center">
          <Popover.Button
@@ -41,6 +52,9 @@ function MyPopover({ nftInfo }) {
                   <div className="dataValuesIndividuals">{"" + nftInfo.totalBounty + " " + currencyCheck(nftInfo.askCurrency)}</div>                                                                          
                </div>                                                                                                     
             </div>
+            <Link href={`/share/cap`}>
+               <a>SHARE</a>
+            </Link>
          </Popover.Panel>
       </Popover>
    )
@@ -105,11 +119,10 @@ const DisplayData = ({ asks }) => {
                            id={ask.tokenId.toString()}
                            showBids={false}
                            showPerpetual={false}
-
                         />
                      </MediaConfiguration>
                      <div className="text-[#c3f53b] p-1 mb-2 flex flex-row justify-center text-xl">
-                        {"FINDER'S FEE : " + ask.totalBounty + " ETH"}
+                        {"FINDER'S FEE : " + truncateNumber(ask.totalBounty) + " ETH"}
                      </div>
                      <MyPopover nftInfo={ask} />                        
                   </div>
