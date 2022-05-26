@@ -2,12 +2,15 @@ import { useNFT, useNFTMetadata } from "@zoralabs/nft-hooks"
 import { NFTPreview, MediaConfiguration } from "@zoralabs/nft-components"
 import { Popover } from "@headlessui/react"
 import Link from 'next/link';
+import { useAccount } from "wagmi";
 
 const currencyCheck = (currency) => {
    if ( currency === "0x0000000000000000000000000000000000000000") {
       return "ETH"
-   }  else if ( currency === "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48") {
+   }  else if ( currency.toLowerCase() === "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48") {
       return "USDC"
+   }  else if ( currency.toLowerCase() === "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2") {
+      return "WETH"
    }  else {
       return "NON INDEXED CURRENCY"
    }
@@ -15,10 +18,8 @@ const currencyCheck = (currency) => {
 
 const truncateNumber = (number) => {
    const stringNumber = number.toString()
-   console.log("what stringnumber is getting passed: ", stringNumber)
    if ( stringNumber.length > 6) {
       const shortenNumber = number.toFixed(4)
-      console.log("checking shortened number: ", shortenNumber)
       return shortenNumber
    } else {
       return number
@@ -52,33 +53,15 @@ function MyPopover({ nftInfo }) {
                   <div className="dataValuesIndividuals">{"" + nftInfo.totalBounty + " " + currencyCheck(nftInfo.askCurrency)}</div>                                                                          
                </div>                                                                                                     
             </div>
-            <Link href={`/share/cap`}>
-               <a>SHARE</a>
-            </Link>
          </Popover.Panel>
       </Popover>
    )
 } 
 
-
-/* const MyNFT = (nft) => {
-   const { data, error } = useNFT(
-      nft.tokenContract,
-      nft.tokenId
-      
-   )
-   console.log("whats the data: ", data )
-   const { metadata } = useNFTMetadata(
-      data && data.metadataURI
-   )
-   console.log("whats the metadata: ", metadata )
-   console.log("whats {data, error, metadata}: ", data + " " + error + " " + metadata)
-   return {data, error, metadata}
-} */
-
-
 const DisplayData = ({ asks }) => {
 
+   let account = useAccount(); 
+ 
    return (
       <>
          {
@@ -121,10 +104,16 @@ const DisplayData = ({ asks }) => {
                            showPerpetual={false}
                         />
                      </MediaConfiguration>
-                     <div className="text-[#c3f53b] p-1 mb-2 flex flex-row justify-center text-xl">
-                        {"FINDER'S FEE : " + truncateNumber(ask.totalBounty) + " ETH"}
+                     <div className="grid grid-cols-2 grid-rows-2 ">                     
+                        <div className=" row-span-1 col-start-1 col-end-3 text-[#c3f53b] p-1 mb-2 flex flex-row justify-center text-xl">
+                           {"FINDER'S FEE : " + truncateNumber(ask.totalBounty) + " ETH"}
+                        </div>
+                        <Link className="row-span-2 col-start-1 col-end-2" href={`/share/${account.data.address}/${ask.tokenContract}/${ask.tokenId}/${ask.askCurrency}/${ask.simpleETH}`}>
+                        
+                           <button className="text-[#7f7f7f] p-1 border-2 border-solid border-[#7f7f7f]" >SHARE</button>
+                        </Link>
+                        <MyPopover className="row-span-2 col-start-2 col-end-3" nftInfo={ask} />
                      </div>
-                     <MyPopover nftInfo={ask} />                        
                   </div>
                </div>)
             }): null

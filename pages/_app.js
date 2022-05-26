@@ -5,7 +5,7 @@ import { AppWrapper } from '../context/appContext.js'; // import based on where 
 import '@rainbow-me/rainbowkit/styles.css';
 
 const { chains, provider } = configureChains(
-  [/* chain.mainnet,  */chain.rinkeby /* chain.polygon, chain.optimism, chain.arbitrum */],
+  [chain.mainnet, /* chain.rinkeby, */ /* chain.polygon, chain.optimism, chain.arbitrum */],
   [
     apiProvider.alchemy(process.env.ALCHEMY_ID),
     apiProvider.fallback()

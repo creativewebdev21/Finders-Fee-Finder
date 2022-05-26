@@ -19,7 +19,7 @@ import NFTRender from "../components/nftPreview";
 //
 import { MediaFetchAgent, Networks } from '@zoralabs/nft-hooks';
 import { NFTPreview } from "@zoralabs/nft-components";
-import { Fragment } from "react";
+import { useAccount, useSigner } from "wagmi";
 //
 
 const APIURL = "https://indexer-prod-mainnet.zora.co/v1/graphql";
@@ -27,6 +27,7 @@ const APIURL2 = "https://api.zora.co/graphql"
 // link to zora rinkeby indexer: https://indexer-dev-rinkeby.zora.co/v1/graphql
 // link to zora mainnet indexer: https://indexer-prod-mainnet.zora.co/v1/graphql
 // link to new zora indexer (works on multiple chains): "https://api.zora.co/graphql"
+
 
 // const newIndexer = ` 
 //   query MyQuery {
@@ -44,7 +45,7 @@ const APIURL2 = "https://api.zora.co/graphql"
 //               askPrice {
 //                 ethPrice {
 //                   decimal
-//                 }
+//                 }  
 //               }
 //               sellerFundsRecipient
 //             }
@@ -124,7 +125,8 @@ export default function Home(/* {id, nft, metadata } */) {
           {
             status: {_eq: "ACTIVE"}, 
             findersFeeBps: {_neq: 0},
-            askCurrency: {_eq: "0x0000000000000000000000000000000000000000"}    
+            askCurrency: {_eq: "0x0000000000000000000000000000000000000000"}
+            #seller: {_eq: "0x806164c929Ad3A6f4bd70c2370b3Ef36c64dEaa8"}    
           }
           limit: 10
           offset: ${i * 100}
@@ -267,8 +269,7 @@ export default function Home(/* {id, nft, metadata } */) {
             WHAT IS A FINDER'S FEE?
           </a> 
         </h2 >        
-        {/* <NFTPreview initialData={{ nft, metadata }} id={id} /> */}
-        {/* {fuckingbullshit()} */}
+        <ConnectButton />
         {loading ? <LoadingData /> : <DisplayDataHeader count={askCount} />}
         {loading ? <LoadingData /> : <DisplayData asks={currentData}/>}
       </main>
