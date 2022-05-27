@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import { NFTPreview, MediaConfiguration } from '@zoralabs/nft-components';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useSigner, useAccount, useContractWrite, useContractRead } from 'wagmi';
+import Link from 'next/link';
 
 import { ethers, BigNumber } from 'ethers';
 import mainnetZoraAddresses from "@zoralabs/v3/dist/addresses/1.json";
@@ -126,7 +127,9 @@ const SharePage = () => {
 
    return (
       <div>
-         <ConnectButton />
+         <div className=" fixed top-3 right-3">
+            <ConnectButton accountStatus="address"  />
+         </div>
          <div className='flex flex-row justify-center'>
             <MediaConfiguration // link to style docs: https://ourzora.github.io/nft-components/?path=/docs/renderer-mediaconfiguration--page
                strings={{
@@ -201,6 +204,11 @@ const SharePage = () => {
             <div>
             {`fill amount : ${fill_amount}` + " " + currencyCheck(fill_currency) }
             </div>
+         </div>
+         <div>
+            <Link href="/">
+               <a>← Back to home</a>      
+            </Link>
          </div>
       </div>
    )

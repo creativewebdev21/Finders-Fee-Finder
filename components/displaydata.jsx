@@ -4,6 +4,7 @@ import { Popover } from "@headlessui/react"
 import Link from 'next/link';
 import { useAccount } from "wagmi";
 
+
 const currencyCheck = (currency) => {
    if ( currency === "0x0000000000000000000000000000000000000000") {
       return "ETH"
@@ -30,7 +31,7 @@ function MyPopover({ nftInfo }) {
    return (
       <Popover className="relative mb-2 flex flex-row justify-center">
          <Popover.Button
-            className="text-[#7f7f7f] p-1 border-2 border-solid border-[#7f7f7f]"
+            className="text-[#c3f53b] py-1 px-2 border-2 border-solid border-[#c3f53b] hover:bg-[#c3f53b] hover:text-black"
          >
             MORE INFO
          </Popover.Button>
@@ -60,16 +61,17 @@ function MyPopover({ nftInfo }) {
 
 const DisplayData = ({ asks }) => {
 
-   let account = useAccount(); 
- 
+   const { data: account, isError: accountError, isLoading: accountLoading } = useAccount(); 
+
    return (
       <>
          {
-            asks 
+            asks && asks.length > 0
             ? 
             asks.map((ask, index) => {
-               return (                
-               <div key={ask.id} className="dataheader">  
+               return (                               
+               
+               <div key={ask.id} className="dataheader">                 
                   <div className="bountyHeaderAndDataWrapper">
                      <MediaConfiguration // link to style docs: https://ourzora.github.io/nft-components/?path=/docs/renderer-mediaconfiguration--page
                         strings={{
@@ -104,51 +106,47 @@ const DisplayData = ({ asks }) => {
                            showPerpetual={false}
                         />
                      </MediaConfiguration>
-                     <div className="grid grid-cols-2 grid-rows-2 ">                     
-                        <div className=" row-span-1 col-start-1 col-end-3 text-[#c3f53b] p-1 mb-2 flex flex-row justify-center text-xl">
+                     <div className="grid grid-cols-1 grid-rows-3 gap-5 ">                     
+                        <div className=" row-span-1 col-span-1 text-[#c3f53b]  p-1 flex flex-row justify-center text-xl">
                            {"FINDER'S FEE : " + truncateNumber(ask.totalBounty) + " ETH"}
                         </div>
-                        <Link className="row-span-2 col-start-1 col-end-2" href={`/share/${account.data.address}/${ask.tokenContract}/${ask.tokenId}/${ask.askCurrency}/${ask.simpleETH}`}>
+
+                        { accountLoading || accountError || account == null ? (             
+                           <button
+                              disabled="true"
+                              className="flex flex-row items-center justify-self-center w-fit text-slate-600 py-1 px-2 border-2 border-solid border-slate-600"
+                           >
+                              CONNECT WALLET TO SHARE
+                           </button>
                         
-                           <button className="text-[#7f7f7f] p-1 border-2 border-solid border-[#7f7f7f]" >SHARE</button>
+                        ) : (
+                        <Link
+                           href={`/share/${account.address}/${ask.tokenContract}/${ask.tokenId}/${ask.askCurrency}/${ask.simpleETH}`}
+                        >               
+                           <button 
+                              className="flex flex-row items-center justify-self-center w-fit text-[#c3f53b] py-1 px-2 border-2 border-solid border-[#c3f53b] hover:bg-[#c3f53b] hover:text-black"
+                           >
+                              SHARE
+                           </button>
                         </Link>
-                        <MyPopover className="row-span-2 col-start-2 col-end-3" nftInfo={ask} />
+                        )}                        
+                        <MyPopover className="row-span-3 col-span-1" nftInfo={ask} />
                      </div>
                   </div>
                </div>)
-            }): null
+            }): 
+            <div className="text-4xl">
+               NO RESULTS 😑
+            </div>
          }   
       </>
    ) 
 }
 
 export const LoadingData = () => (
-   <div>
-      Loading . . .
+   <div className="mt-5">
+      Loading Data . . .
    </div>
 )
 export default DisplayData
-
-export async function getServerSideProps() {
-   // zNFT id to render
-   const id = "3158";
-   // Create the fetcher object
-   const fetcher = new MediaFetchAgent(Networks.MAINNET);
-   // Fetch the NFT information on the server-side
-   const nft = await fetcher.loadNFTData(id);
-   const metadata = await fetcher.fetchIPFSMetadata(nft.nft.metadataURI);
- 
-   // Function required to remove `undefined` from JSON passed to client.
-   function prepareJson(json) {
-     return JSON.parse(JSON.stringify(json));
-   }
- 
-   return {
-     props: prepareJson({
-       nft: nft,
-       metadata,
-       id,
-     })
-   };
- }
  

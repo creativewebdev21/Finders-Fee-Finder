@@ -39,7 +39,12 @@ import { chain, createClient, WagmiProvider } from 'wagmi';
 function MyApp({ Component, pageProps }) {
   return (
     <WagmiProvider client={wagmiClient}>
-      <RainbowKitProvider chains={chains} theme={midnightTheme()}>
+      <RainbowKitProvider coolMode chains={chains} theme={midnightTheme({      
+        accentColor: 'purple',
+        accentColorForeground: 'white',
+        borderRadius: "none",
+        overlayBlur: 'large'
+      })}>
           <AppWrapper>
             <Component {...pageProps} />
           </AppWrapper>
