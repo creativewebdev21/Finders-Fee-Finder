@@ -27,7 +27,7 @@ const truncateNumber = (number) => {
    }
 }
 
-const addressResolver = (addressBro) => {
+/* const addressResolver = (addressBro) => {
    const { data: ensData, isError: ensError, isLoading: ensLoading, isSuccess: ensSuccess } = useEnsName({
       address: addressBro,
       onSuccess(ensData) {
@@ -39,7 +39,7 @@ const addressResolver = (addressBro) => {
          return error
       }
    }) 
-}  
+}   */
 
 const shortenedAddress = (address) => {
    let displayAddress = address?.substr(0,4) + "..." + address?.substr(-4)
