@@ -7,6 +7,7 @@ import { ethers, BigNumber } from 'ethers';
 import mainnetZoraAddresses from "@zoralabs/v3/dist/addresses/1.json";
 import { ZoraModuleManager__factory } from "@zoralabs/v3/dist/typechain/factories/ZoraModuleManager__factory";
 import { AsksV11__factory } from "@zoralabs/v3/dist/typechain/factories/AsksV11__factory";
+import { useEffect } from 'react';
 
 
 const currencyCheck = (currency) => {
@@ -22,25 +23,35 @@ const currencyCheck = (currency) => {
 const SharePage = () => {
    const router = useRouter(); 
    const { user, contract_address, token_id, fill_currency, fill_amount } = router.query;    
-   
-   const userAddress = useAccount()
+   const { data: userAddress, isError: accountError, isLoading: accountLoading } = useAccount({
+      onError(error) {
+         console.log("error", error)
+      }   
+   })
+   const userAddressCheck = userAddress?.data?.address || "";
    const nftAddress = contract_address;
    const nftId = token_id
    const fillCurrency = fill_currency
-   const fillAmountString = fill_amount?.toString() || '';
-   const fillAmountParsed = ethers.utils.parseEther(fillAmountString)
+   const test = 10
+/*    const fillAmountString = fill_amount?.toString() || ''; */
+   // const fillAmountParsed = ethers.utils.parseEther(fillAmountString)
+   // const fillAmountParsed = 600;
+ 
    const finderAddress = user;
 
    // zora askV1_1 approval read - reruns if user changes wallets
-   const { data: approvalReadData, isError: approvalReadError, isLoading: approvalReadLoading } = useContractRead(
+   const { data: approvalReadData, isError: approvalReadError, isLoading: approvalReadLoading, refetch } = useContractRead(
       {
          addressOrName: mainnetZoraAddresses.ZoraModuleManager,
          contractInterface: ZoraModuleManager__factory.abi
       },
       "isModuleApproved",
       {
+         enabled: false
+      },
+      {
          args: [
-            userAddress.data.address, // might need to change this line as its causing build issues: if no user address (no one logged in) then this errors out?
+            userAddressCheck, // might need to change this line as its causing build issues: if no user address (no one logged in) then this errors out?
             mainnetZoraAddresses.AsksV1_1
          ],
          onError(error) {
@@ -48,11 +59,22 @@ const SharePage = () => {
          },
          onSuccess(data) {
             console.log("success", data)
-         }
-      }
+         },
+      },   
    )
 
-   // zora askV1_1 approval call - will show up is user hasn't approved module befoer
+   useEffect(() => {
+      if (userAddress) {
+         refetch({
+            throwOnError: false,
+            cancelRefetch: false
+         })
+         console.log("ran refetch")
+      }
+   },
+   [userAddress])
+
+   // zora askV1_1 approval write call - will show up is user hasn't approved module befoer
    const { data: approvalWriteData, isError: approvalWriteError, isLoading: approvalWriteLoading, write: approvalWrite } = useContractWrite(
       {
          addressOrName: mainnetZoraAddresses.ZoraModuleManager,
@@ -83,11 +105,11 @@ const SharePage = () => {
             nftAddress,
             nftId,
             fillCurrency,
-            BigNumber.from(fillAmountParsed).toString(),
+            BigNumber.from(ethers.utils.parseEther(test.toString())).toString(),
             finderAddress,
          ],
          overrides: {
-            value: BigNumber.from(fillAmountParsed).toString()
+            value: BigNumber.from(ethers.utils.parseEther(test.toString())).toString()
          }
       }
    )
@@ -154,19 +176,19 @@ const SharePage = () => {
                </div>
             }         
             <div>
-            {`finder address : ${user}`}
+            {`finder address : ${user ? user : ""}`}
             </div>
             <div>
-            {`nft contract address : ${contract_address}`}
+            {`nft contract address : ${contract_address ? contract_address : ""}`}
             </div>
             <div>
-            {`nft token id : ${token_id}`}
+            {`nft token id : ${token_id ? token_id : ""}`}
             </div>
             <div>
-            {`fill currency : ${fill_currency}`}
+            {`fill currency : ${fill_currency ? fill_currency : ""}`}
             </div>
             <div>
-            {`fill amount : ${fillAmountString}` + " " + currencyCheck(fill_currency) }
+            {`fill amount : ${fill_amount ? fill_amount : ""}` + " " + currencyCheck(fill_currency ? fill_currency : "") }
             </div>
          </div>
          <div>
