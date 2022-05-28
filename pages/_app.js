@@ -7,7 +7,7 @@ import '@rainbow-me/rainbowkit/styles.css';
 const { chains, provider } = configureChains(
   [chain.mainnet, /* chain.rinkeby, */ /* chain.polygon, chain.optimism, chain.arbitrum */],
   [
-    apiProvider.alchemy(process.env.ALCHEMY_ID),
+    apiProvider.alchemy(process.env.NEXT_PUBLIC_ALCHEMY_ID),
     apiProvider.fallback()
   ]
 );
