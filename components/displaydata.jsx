@@ -2,7 +2,7 @@ import { useNFT, useNFTMetadata } from "@zoralabs/nft-hooks"
 import { NFTPreview, MediaConfiguration } from "@zoralabs/nft-components"
 import { Popover } from "@headlessui/react"
 import Link from 'next/link';
-import { useAccount } from "wagmi";
+import { useAccount, useEnsName, etherscanBlockExplorers } from "wagmi";
 
 
 const currencyCheck = (currency) => {
@@ -27,11 +27,30 @@ const truncateNumber = (number) => {
    }
 }
 
+const addressResolver = (addressBro) => {
+   const { data: ensData, isError: ensError, isLoading: ensLoading, isSuccess: ensSuccess } = useEnsName({
+      address: addressBro,
+      onSuccess(ensData) {
+         console.log("Success", ensData)
+         return ensData
+      },
+      onError(error) {
+         console.log('Error', error)
+         return error
+      }
+   }) 
+}  
+
+const shortenedAddress = (address) => {
+   let displayAddress = address?.substr(0,4) + "..." + address?.substr(-4)
+   return displayAddress
+}
+
 function MyPopover({ nftInfo }) {
    return (
       <Popover className="relative mb-2 flex flex-row justify-center">
          <Popover.Button
-            className="text-[#c3f53b] py-1 px-2 border-2 border-solid border-[#c3f53b] hover:bg-[#c3f53b] hover:text-black"
+            className="text-[#c3f53b] w-9/12 justify-center justify-self-center py-1 px-2 border-2 border-solid border-[#c3f53b] hover:bg-[#c3f53b] hover:text-black"
          >
             MORE INFO
          </Popover.Button>
@@ -60,9 +79,10 @@ function MyPopover({ nftInfo }) {
 } 
 
 const DisplayData = ({ asks }) => {
+   console.log("etherscan check:", etherscanBlockExplorers.mainnet.url)
+   console.log("etherscan addy link check:", etherscanBlockExplorers.mainnet.url + "/address/" + "0x806164c929Ad3A6f4bd70c2370b3Ef36c64dEaa8")
 
    const { data: account, isError: accountError, isLoading: accountLoading } = useAccount(); 
-
    return (
       <>
          {
@@ -75,26 +95,27 @@ const DisplayData = ({ asks }) => {
                   <div className="bountyHeaderAndDataWrapper">
                      <MediaConfiguration // link to style docs: https://ourzora.github.io/nft-components/?path=/docs/renderer-mediaconfiguration--page
                         strings={{
-                           CARD_OWNED_BY: "OWNER: ",
+                           CARD_OWNED_BY: "",
                            CREATED: "",
                            COLLECTED: "",
-                           CARD_CREATED_BY: "CREATOR: ",
+                           CARD_CREATED_BY: "",
+                           CREATOR: "",
                            OWNER: ""
                         }}
                         
                         style={{                
                            theme: { 
                               previewCard: { background: "black" }, 
-                              linkColor: "#c3f53b", 
-                              titleFont: "color: #c3f53b",
-                              bodyFont: "color: white",  
+                              linkColor: "color: transparent", 
+                              titleFont: "color: transparent",
+                              bodyFont: "color: trasnparent",  
                               audioColors: { waveformColor: "white", progressColor: "#c3f53b"},
                               useZoraUsernameResolution: "false",
                               borderStyle: "4px purple solid",
-                              spacingUnit: "5px",
-                              textBlockPadding: "10px",
+                              spacingUnit: "0",
+                              textBlockPadding: "0",
                               placeHolderColor: "black",
-                              lineSpacing: "25"                              
+                              lineSpacing: "0"                              
                            } 
                         }}
                      >
@@ -106,15 +127,23 @@ const DisplayData = ({ asks }) => {
                            showPerpetual={false}
                         />
                      </MediaConfiguration>
-                     <div className="grid grid-cols-1 grid-rows-3 gap-5 ">                     
-                        <div className=" row-span-1 col-span-1 text-[#c3f53b]  p-1 flex flex-row justify-center text-xl">
+                     <div className="grid grid-cols-1 grid-rows-4 gap-2 ">                                          
+                        <div className="m-0 p-0 row-span-1 col-span-1 text-[#c3f53b] flex flex-row justify-center text-xl">                           
+                              {"LIST PRICE : " + truncateNumber(ask.simpleETH) + " ETH"}                           
+                        </div>
+                        <div className=" m-0 p-0 row-span-1 col-span-1 text-[#c3f53b] flex flex-row justify-center text-xl">               
+                           OWNER :  
+                           <a href={`${etherscanBlockExplorers.mainnet.url}` + `/address/` + `${ask.seller}` }>
+                              {"" + shortenedAddress(ask.seller)}
+                           </a>
+                        </div>                     
+                        <div className=" m-0 p-0 row-span-1 col-span-1 text-[#c3f53b] flex flex-row justify-center text-xl">
                            {"FINDER'S FEE : " + truncateNumber(ask.totalBounty) + " ETH"}
                         </div>
-
                         { accountLoading || accountError || account == null ? (             
                            <button
                               disabled="true"
-                              className="flex flex-row items-center justify-self-center w-fit text-slate-600 py-1 px-2 border-2 border-solid border-slate-600"
+                              className="flex flex-row items-center justify-center justify-self-center w-9/12 text-slate-600 py-1 px-2 border-2 border-solid border-slate-600"
                            >
                               CONNECT WALLET TO SHARE
                            </button>
@@ -124,7 +153,7 @@ const DisplayData = ({ asks }) => {
                            href={`/share/${account.address}/${ask.tokenContract}/${ask.tokenId}/${ask.askCurrency}/${ask.simpleETH}`}
                         >               
                            <button 
-                              className="flex flex-row items-center justify-self-center w-fit text-[#c3f53b] py-1 px-2 border-2 border-solid border-[#c3f53b] hover:bg-[#c3f53b] hover:text-black"
+                              className="flex flex-row items-center justify-center justify-self-center w-9/12 text-[#c3f53b] py-1 px-2 border-2 border-solid border-[#c3f53b] hover:bg-[#c3f53b] hover:text-black"
                            >
                               SHARE
                            </button>
