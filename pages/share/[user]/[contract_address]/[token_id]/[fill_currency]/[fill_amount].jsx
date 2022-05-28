@@ -22,14 +22,14 @@ const currencyCheck = (currency) => {
 const SharePage = () => {
    const router = useRouter(); 
    const { user, contract_address, token_id, fill_currency, fill_amount } = router.query;    
+   
    const userAddress = useAccount()
    const nftAddress = contract_address;
    const nftId = token_id
    const fillCurrency = fill_currency
-   const fillAmountString = fill_amount.toString()
+   const fillAmountString = fill_amount?.toString() || '';
    const fillAmountParsed = ethers.utils.parseEther(fillAmountString)
    const finderAddress = user;
-
 
    // zora askV1_1 approval read - reruns if user changes wallets
    const { data: approvalReadData, isError: approvalReadError, isLoading: approvalReadLoading } = useContractRead(
@@ -152,11 +152,7 @@ const SharePage = () => {
                      PURCHASE
                   </button>
                </div>
-            }
-{/*             <button className='mt-5 bg-red-500 w-20 ' onClick={callFillAsk}>
-               PURCHASE
-            </button> */}
-            
+            }         
             <div>
             {`finder address : ${user}`}
             </div>
@@ -170,7 +166,7 @@ const SharePage = () => {
             {`fill currency : ${fill_currency}`}
             </div>
             <div>
-            {`fill amount : ${fill_amount}` + " " + currencyCheck(fill_currency) }
+            {`fill amount : ${fillAmountString}` + " " + currencyCheck(fill_currency) }
             </div>
          </div>
          <div>
