@@ -2,8 +2,8 @@ import FieldSort from './fieldSort';
 import FieldSortDirection from './fieldSortDirection';
 import TokenLookup from './tokenLookup';
 
-const DisplayDataHeader = ({ count }) => {
-  
+const DisplayDataHeader = ({ count, inputContract, inputTokenId, advancedFilterCB, setTokenCB, setContractCB, fetchDataCB  }) => {
+
   return (
     <>
       <div className="grid grid-cols-3 grid-rows-2  mt-10 mb-20 w-fit">
@@ -12,7 +12,15 @@ const DisplayDataHeader = ({ count }) => {
         </h2>
         <FieldSort className="row-span-2 col-start-1 col-end-2" />
         <FieldSortDirection className="row-span-2 col-start-2 col-end-3" />
-        <TokenLookup className="ml-5 row-span-2 col-start-3 col-end-4" />
+        <TokenLookup
+          className="ml-5 row-span-2 col-start-3 col-end-4"
+          inputContract={inputContract}
+          inputTokenId={inputTokenId}
+          advancedFilterCB={advancedFilterCB}
+          setTokenCB={setTokenCB}
+          setContractCB={setContractCB}
+          fetchDataCB={fetchDataCB}
+        />
       </div>
     </>
   ) 
@@ -20,7 +28,7 @@ const DisplayDataHeader = ({ count }) => {
 
 export const LoadingHeaderData = () => (
   <div className="mt-5">
-     Loading Header . . .
+    Loading Header . . .
   </div>
 )
 export default DisplayDataHeader

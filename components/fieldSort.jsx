@@ -25,12 +25,12 @@ import { useAppContext } from '../context/appContext';
       <div className="text-white mx-1">
         <Listbox value={sortFilter} onChange={select}>
           <div className="relative mt-1">
-            <Listbox.Button className="relative w-full cursor-default border-solid border-white border-2 bg-black py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-[#c3f53b] sm:text-lg">
+            <Listbox.Button className="hover:bg-[#c3f53b] hover:text-black cursor-pointer relative w-full border-solid border-white border-2 bg-black py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-[#c3f53b] sm:text-lg">
               <span className="block truncate">{sortFilter.name}</span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                 <SelectorIcon
                   className="h-5 w-5 text-white"
-                  aria-hidden="true"
+                  aria-hidden="true" 
                 />
               </span>
             </Listbox.Button>
@@ -45,7 +45,7 @@ import { useAppContext } from '../context/appContext';
                   <Listbox.Option
                     key={optionIdx}
                     className={({ active }) =>
-                      `border-2 border-solid border-white  relative cursor-default select-none py-2 pl-10 pr-4 ${
+                      `cursor-pointer border-2 border-solid border-white årelative select-none py-2 pl-10 pr-4 ${
                         active ? 'bg-[#c3f53b] text-black' : 'text-white'
                       }`
                     }

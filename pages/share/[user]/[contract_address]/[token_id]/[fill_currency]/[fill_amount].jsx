@@ -1,20 +1,13 @@
 import { useRouter } from 'next/router'
 import { NFTPreview, MediaConfiguration } from '@zoralabs/nft-components';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useSigner, useAccount, useContractWrite, useContractRead } from 'wagmi';
+import { useAccount, useContractWrite, useContractRead } from 'wagmi';
 import Link from 'next/link';
-
 import { ethers, BigNumber } from 'ethers';
 import mainnetZoraAddresses from "@zoralabs/v3/dist/addresses/1.json";
-import { IERC721__factory } from "@zoralabs/v3/dist/typechain/factories/IERC721__factory";
-import { IERC20__factory } from "@zoralabs/v3/dist/typechain/factories/IERC20__factory";
 import { ZoraModuleManager__factory } from "@zoralabs/v3/dist/typechain/factories/ZoraModuleManager__factory";
 import { AsksV11__factory } from "@zoralabs/v3/dist/typechain/factories/AsksV11__factory";
-import { useEffect, useState, Fragment } from 'react';
 
-
-const erc721TransferHelperAddress = mainnetZoraAddresses.ERC721TransferHelper
-const moduleManagerAddress = mainnetZoraAddresses.ZoraModuleManager
 
 const currencyCheck = (currency) => {
    if ( currency === "0x0000000000000000000000000000000000000000") {
@@ -28,41 +21,14 @@ const currencyCheck = (currency) => {
 
 const SharePage = () => {
    const router = useRouter(); 
-   const { user, contract_address, token_id, fill_currency, fill_amount } = router.query; 
-
-/*    const provider = new ethers.providers.Web3Provider(web3.currentProvider, 1);
-   const signer = provider.getSigner() */
-
-   
+   const { user, contract_address, token_id, fill_currency, fill_amount } = router.query;    
    const userAddress = useAccount()
-   console.log("useraddress check", userAddress.data.address)
-
    const nftAddress = contract_address;
    const nftId = token_id
    const fillCurrency = fill_currency
    const fillAmountString = fill_amount.toString()
-   console.log("fill amount string", fillAmountString)
    const fillAmountParsed = ethers.utils.parseEther(fillAmountString)
    const finderAddress = user;
-
-
-/*    const fillAsk = async (_tokenContract, _tokenId, _fillCurrency, _fillAmount, _finder) => {
-      const askModuleContract = AsksV11__factory.connect(mainnetZoraAddresses, signer)
-
-      await askModuleContract.fillAsk(
-         nftAddress,
-         nftId,
-         fillCurrency,
-         BigNumber.from(fillAmountParsed).toString(),
-         finderAddress,
-         { value: BigNumber.from(fillAmountParsed).toString() }
-      )
-   } */
-   
-   // wagmi triggered zora approvals
-
-   console.log("zmm address check: ", mainnetZoraAddresses.ZoraModuleManager),
-   console.log("asksv11 address check: ", mainnetZoraAddresses.AsksV1_1)
 
 
    // zora askV1_1 approval read - reruns if user changes wallets
@@ -74,7 +40,7 @@ const SharePage = () => {
       "isModuleApproved",
       {
          args: [
-            userAddress.data.address,
+            userAddress.data.address, // might need to change this line as its causing build issues: if no user address (no one logged in) then this errors out?
             mainnetZoraAddresses.AsksV1_1
          ],
          onError(error) {
@@ -104,6 +70,8 @@ const SharePage = () => {
       }
    )
 
+
+   // zora asksV1_1 fillAsk write call 
    const { data: fillWriteData, isError: fillWriteError, isLoading: fillWriteLoading, write: fillWrite } = useContractWrite(
       {
          addressOrName: mainnetZoraAddresses.AsksV1_1,
