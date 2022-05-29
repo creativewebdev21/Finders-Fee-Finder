@@ -8,7 +8,10 @@ const DisplayDataHeader = ({ count, inputContract, inputTokenId, advancedFilterC
     <>
       <div className="grid grid-cols-3 grid-rows-2  mt-10 mb-10 w-fit">
         <h2 className="row-span-1 col-start-1 col-end-4 flex flex-wrap justify-center items-center">   
-          {`${count}` + " ACTIVE LISTINGS SORTED BY"} 
+          <div className="text-[#c3f53b] mr-1">
+            {count}
+          </div>
+          ACTIVE LISTINGS SORTED BY
         </h2>
         <FieldSort className="row-span-2 col-start-1 col-end-2" />
         <FieldSortDirection className="row-span-2 col-start-2 col-end-3" />

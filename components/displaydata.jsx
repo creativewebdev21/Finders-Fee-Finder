@@ -20,7 +20,7 @@ const currencyCheck = (currency) => {
 const truncateNumber = (number) => {
    const stringNumber = number.toString()
    if ( stringNumber.length > 6) {
-      const shortenNumber = number.toFixed(4)
+      const shortenNumber = number.toFixed(2)
       return shortenNumber
    } else {
       return number
@@ -78,9 +78,13 @@ function MyPopover({ nftInfo }) {
    )
 } 
 
+
+
+
+
+
+
 const DisplayData = ({ asks }) => {
-   console.log("etherscan check:", etherscanBlockExplorers.mainnet.url)
-   console.log("etherscan addy link check:", etherscanBlockExplorers.mainnet.url + "/address/" + "0x806164c929Ad3A6f4bd70c2370b3Ef36c64dEaa8")
 
    const { data: account, isError: accountError, isLoading: accountLoading } = useAccount(); 
    return (
@@ -92,41 +96,43 @@ const DisplayData = ({ asks }) => {
                return (                               
                
                <div key={ask.id} className="dataheader">                 
-                  <div className="bountyHeaderAndDataWrapper">
-                     <MediaConfiguration // link to style docs: https://ourzora.github.io/nft-components/?path=/docs/renderer-mediaconfiguration--page
-                        strings={{
-                           CARD_OWNED_BY: "",
-                           CREATED: "",
-                           COLLECTED: "",
-                           CARD_CREATED_BY: "",
-                           CREATOR: "",
-                           OWNER: ""
-                        }}
-                        
-                        style={{                
-                           theme: { 
-                              previewCard: { background: "black" }, 
-                              linkColor: "color: transparent", 
-                              titleFont: "color: transparent",
-                              bodyFont: "color: trasnparent",  
-                              audioColors: { waveformColor: "white", progressColor: "#c3f53b"},
-                              useZoraUsernameResolution: "false",
-                              borderStyle: "4px white solid",
-                              spacingUnit: "0",
-                              textBlockPadding: "0",
-                              placeHolderColor: "black",
-                              lineSpacing: "0"                              
-                           } 
-                        }}
-                     >
-                        <NFTPreview
-                           useBetaIndexer="true"
-                           contract={ask.tokenContract.toString()}
-                           id={ask.tokenId.toString()}
-                           showBids={false}
-                           showPerpetual={false}
-                        />
-                     </MediaConfiguration>
+                  <div className="bountyHeaderAndDataWrapper">                     
+                        <MediaConfiguration // link to style docs: https://ourzora.github.io/nft-components/?path=/docs/renderer-mediaconfiguration--page
+                           strings={{
+                              CARD_OWNED_BY: "",
+                              CREATED: "",
+                              COLLECTED: "",
+                              CARD_CREATED_BY: "",
+                              CREATOR: "",
+                              OWNER: ""
+                           }}
+                           
+                           style={{                
+                              theme: { 
+                                 previewCard: { background: "black" }, 
+                                 linkColor: "color: transparent", 
+                                 titleFont: "color: transparent",
+                                 bodyFont: "color: trasnparent",  
+                                 audioColors: { waveformColor: "white", progressColor: "#c3f53b"},
+                                 useZoraUsernameResolution: "false",
+                                 borderStyle: "4px white solid",
+                                 spacingUnit: "0",
+                                 textBlockPadding: "0",
+                                 placeHolderColor: "black",
+                                 lineSpacing: "0"                              
+                              } 
+                           }}
+                        >
+                           <a href={`${etherscanBlockExplorers.mainnet.url}` + `/nft` + `/${ask.tokenContract}` + `/${ask.tokenId}` }>
+                              <NFTPreview
+                                 useBetaIndexer="true"
+                                 contract={ask.tokenContract.toString()}
+                                 id={ask.tokenId.toString()}
+                                 showBids={false}
+                                 showPerpetual={false}
+                              />
+                           </a>
+                        </MediaConfiguration>                     
                      <div className="grid grid-cols-1 grid-rows-2 gap-2 ">                                          
                         <div className="w-9/12  m-0 row-span-1 col-span-1 text-[#c3f53b] flex flex-row place-content-between justify-self-center items-center text-xl ">
                            <div className=" text-white px-1 flex flex-row justify-self-center justify-center">
