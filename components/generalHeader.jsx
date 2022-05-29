@@ -6,7 +6,7 @@ export default function Header() {
 
       <div>
          <div className=" fixed top-3 right-3">
-            <ConnectButton accountStatus="address"  />
+            <ConnectButton label="CONNECT WALLET"  accountStatus="address"   />
          </div>
          <h1 className="flex m-0 text-6xl leading-tight">
          FINDER'S FEE FINDER ☽

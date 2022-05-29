@@ -138,7 +138,7 @@ const SharePage = () => {
                      bodyFont: "color: white",  
                      audioColors: { waveformColor: "white", progressColor: "#c3f53b"},
                      useZoraUsernameResolution: "false",
-                     borderStyle: "4px purple solid",
+                     borderStyle: "4px white solid",
                      spacingUnit: "5px",
                      textBlockPadding: "10px",
                      placeHolderColor: "black",

@@ -46,14 +46,14 @@ export default function TokenLookup({ inputContract, inputTokenId, advancedFilte
                         leaveFrom="opacity-100 scale-100"
                         leaveTo="opacity-0 scale-95"
                      >
-                     <Dialog.Panel className="w-fit transform overflow-hidden bg-black p-6 align-middletransition-all shadow-[0_10px_60px_20px_rgba(195,245,59,0.3)]" >
-                        <div className="border-white border-2 border-solid max-w-xs my-2 overflow-hidden rounded-none shadow-lg">
+                     <Dialog.Panel className="w-fit transform overflow-hidden bg-black align-middletransition-all shadow-[0_0px_30px_10px_rgba(0,0,0,1)]" >
+                        <div className="border-white border-4 border-solid max-w-xs my-2 overflow-hidden rounded-none shadow-lg">
                            <div className="px-6 py-4">
                               <div className=" mb-2 text-xl font-bold">ADVANCED SEARCH</div>                    
                               <div className="flex flex-col"> 
                                  <label className="mb-2">CONTRACT ADDRESS</label>
                                  <input
-                                    className="text-white bg-black mb-4 border-2 pl-1 border-solid border-white"
+                                    className="text-white bg-black mb-4 border-4 px-2 py-1 border-solid border-white"
                                     placeholder='Ex: 0xa874...'
                                     name="inputContract"
                                     type="text"      
@@ -66,7 +66,7 @@ export default function TokenLookup({ inputContract, inputTokenId, advancedFilte
                                  /> 
                                  <label  className="mb-2">TOKEN ID</label>
                                  <input
-                                    className="text-white bg-black mb-4 pl-1 border-2 border-solid border-white"
+                                    className="text-white bg-black mb-4 px-2 py-1 border-4 border-solid border-white"
                                     placeholder="Ex: 927"
                                     name="inputTokenId"
                                     type="text"      
@@ -79,17 +79,17 @@ export default function TokenLookup({ inputContract, inputTokenId, advancedFilte
                                  />               
                                     <button
                                     disabled={inputTokenId !== "" && inputContract !== "" ? false : true}
-                                    className=" px-4 py-2 text-white bg-black rounded-none borer-solid border-white border-2 hover:bg-[#c3f53b] hover:text-black disabled:bg-black disabled:text-slate-800 disabled:border-slate-800 " 
+                                    className=" px-4 py-2 text-white bg-black rounded-none borer-solid border-white border-4 hover:bg-[#c3f53b] hover:text-black disabled:bg-black disabled:text-slate-800 disabled:border-slate-800 " 
                                     onClick={() => {
                                        advancedFilterCB()
                                        closeModal()
                                     }}
                                     >
-                                    Submit
+                                    SUBMIT
                                     </button>
                                  <button
                                     disabled={inputTokenId !== "" && inputContract !== "" ? false : true}
-                                    className="mt-5 px-4 py-2 text-white bg-black rounded-none borer-solid border-white border-2 hover:bg-[#c3f53b] hover:text-black disabled:bg-black disabled:text-slate-800 disabled:border-slate-800" 
+                                    className="mt-5 px-4 py-2 text-white bg-black rounded-none borer-solid border-white border-4 hover:bg-[#c3f53b] hover:text-black disabled:bg-black disabled:text-slate-800 disabled:border-slate-800" 
                                     onClick={() => {
                                     fetchDataCB()
                                     setTokenCB("")

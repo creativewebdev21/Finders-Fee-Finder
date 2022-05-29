@@ -21,7 +21,7 @@ import { useAppContext } from '../context/appContext.js';
     }
     
     return ( 
-      <div className="text-white mx-1">
+      <div className="text-white mx-1 z-10">
         <Listbox value={sortDirection} onChange={select}>
           <div className="relative mt-1">
             <Listbox.Button className="hover:bg-[#c3f53b] hover:text-black relative w-full cursor-pointer border-white border-2 border-solid bg-black py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-[#c3f53b] sm:text-lg">

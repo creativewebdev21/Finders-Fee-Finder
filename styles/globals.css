@@ -2,20 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://rsms.me/inter/inter.css');
+
+@supports (font-variation-settings: normal) {
+  body {
+    font-family: "Inter var", sans-serif
+  }
+}
 
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: "Inter", sans-serif  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue;
   background-color: black;
   color: white;
 }
 
 a {
   color: inherit;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 a:hover, a:focus, a:active {
@@ -42,7 +49,7 @@ p {
   background-color: black;
   margin: 10px;
   padding: 10px;
-  border: 4px purple solid;
+  border: 4px white solid;
   width: fit-content;
   margin-top: 30px;
   margin-bottom: 20px;

@@ -40,10 +40,11 @@ function MyApp({ Component, pageProps }) {
   return (
     <WagmiProvider client={wagmiClient}>
       <RainbowKitProvider coolMode chains={chains} theme={midnightTheme({      
-        accentColor: 'purple',
-        accentColorForeground: 'white',
+        accentColor: 'white',
+        accentColorForeground: 'black',
         borderRadius: "none",
-        overlayBlur: 'large'
+        overlayBlur: 'large',
+        fontStack: 'system'
       })}>
           <AppWrapper>
             <Component {...pageProps} />

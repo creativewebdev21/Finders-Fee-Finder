@@ -50,7 +50,7 @@ function MyPopover({ nftInfo }) {
    return (
       <Popover className="relative mb-2 flex flex-row justify-center">
          <Popover.Button
-            className="text-[#c3f53b] w-9/12 justify-center justify-self-center py-1 px-2 border-2 border-solid border-[#c3f53b] hover:bg-[#c3f53b] hover:text-black"
+            className="text-white w-9/12 justify-center justify-self-center py-1 px-2 border-4 border-solid border-white hover:bg-[#c3f53b] hover:text-black"
          >
             MORE INFO
          </Popover.Button>
@@ -111,7 +111,7 @@ const DisplayData = ({ asks }) => {
                               bodyFont: "color: trasnparent",  
                               audioColors: { waveformColor: "white", progressColor: "#c3f53b"},
                               useZoraUsernameResolution: "false",
-                              borderStyle: "4px purple solid",
+                              borderStyle: "4px white solid",
                               spacingUnit: "0",
                               textBlockPadding: "0",
                               placeHolderColor: "black",
@@ -127,23 +127,43 @@ const DisplayData = ({ asks }) => {
                            showPerpetual={false}
                         />
                      </MediaConfiguration>
-                     <div className="grid grid-cols-1 grid-rows-4 gap-2 ">                                          
-                        <div className="m-0 p-0 row-span-1 col-span-1 text-[#c3f53b] flex flex-row justify-center text-xl">                           
-                              {"LIST PRICE : " + truncateNumber(ask.simpleETH) + " ETH"}                           
+                     <div className="grid grid-cols-1 grid-rows-2 gap-2 ">                                          
+                        <div className="w-9/12  m-0 row-span-1 col-span-1 text-[#c3f53b] flex flex-row place-content-between justify-self-center items-center text-xl ">
+                           <div className=" text-white px-1 flex flex-row justify-self-center justify-center">
+                              {"LIST PRICE"}                           
+                           </div>                                                      
+                           <div className=" bg-white text-black px-2 py-1 flex flex-row justify-self-end justify-end justify-items-end">
+                              {truncateNumber(ask.simpleETH) + " ETH"}                           
+                           </div>                           
+                           
                         </div>
-                        <div className=" m-0 p-0 row-span-1 col-span-1 text-[#c3f53b] flex flex-row justify-center text-xl">               
-                           OWNER :  
-                           <a href={`${etherscanBlockExplorers.mainnet.url}` + `/address/` + `${ask.seller}` }>
-                              {"" + shortenedAddress(ask.seller)}
-                           </a>
-                        </div>                     
-                        <div className=" m-0 p-0 row-span-1 col-span-1 text-[#c3f53b] flex flex-row justify-center text-xl">
-                           {"FINDER'S FEE : " + truncateNumber(ask.totalBounty) + " ETH"}
+                        <div className=" w-9/12  m-0 row-span-1 col-span-1 text-[#c3f53b] flex flex-row place-content-between justify-self-center items-center text-xl ">                                          
+                           <div className=" text-white px-1 flex flex-row justify-self-center justify-center">
+                              OWNER
+                           </div>
+                           <div className=" bg-white text-black px-2 py-1 flex flex-row justify-self-end justify-end justify-items-end">
+                              <a 
+                                 style={{ color: "black" }}
+                                 href={`${etherscanBlockExplorers.mainnet.url}` + `/address/` + `${ask.seller}` }
+                              >
+                                 {"" + shortenedAddress(ask.seller)}
+                              </a>
+                           </div>                 
+                        </div>               
+                        <div className=" w-9/12  m-0  row-span-1 col-span-1 text-[#c3f53b] flex flex-row place-content-between justify-self-center items-center text-xl ">
+                           <div className="text-white px-1 flex flex-row justify-self-center justify-center">
+                              FINDER'S FEE
+                           </div>
+                           <div className=" bg-white text-black px-2 py-1 flex flex-row justify-self-end justify-end justify-items-end">
+                              {truncateNumber(ask.totalBounty) + " ETH"}   
+                           </div>
+                        
+                           
                         </div>
                         { accountLoading || accountError || account == null ? (             
                            <button
                               disabled="true"
-                              className="flex flex-row items-center justify-center justify-self-center w-9/12 text-slate-600 py-1 px-2 border-2 border-solid border-slate-600"
+                              className="flex flex-row items-center justify-center justify-self-center w-9/12 text-slate-600 py-1 px-2 border-4 border-solid border-slate-600"
                            >
                               CONNECT WALLET TO SHARE
                            </button>
@@ -153,7 +173,7 @@ const DisplayData = ({ asks }) => {
                            href={`/share/${account.address}/${ask.tokenContract}/${ask.tokenId}/${ask.askCurrency}/${ask.simpleETH}`}
                         >               
                            <button 
-                              className="flex flex-row items-center justify-center justify-self-center w-9/12 text-[#c3f53b] py-1 px-2 border-2 border-solid border-[#c3f53b] hover:bg-[#c3f53b] hover:text-black"
+                              className="flex flex-row items-center justify-center justify-self-center w-9/12 text-white py-1 px-2 border-4 border-solid border-white hover:bg-[#c3f53b] hover:text-black"
                            >
                               SHARE
                            </button>
@@ -165,7 +185,7 @@ const DisplayData = ({ asks }) => {
                </div>)
             }): 
             <div className="text-4xl">
-               NO RESULTS 😑
+               { "::: NO RESULTS :::" }
             </div>
          }   
       </>

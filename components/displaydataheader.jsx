@@ -6,7 +6,7 @@ const DisplayDataHeader = ({ count, inputContract, inputTokenId, advancedFilterC
 
   return (
     <>
-      <div className="grid grid-cols-3 grid-rows-2  mt-10 mb-20 w-fit">
+      <div className="grid grid-cols-3 grid-rows-2  mt-10 mb-10 w-fit">
         <h2 className="row-span-1 col-start-1 col-end-4 flex flex-wrap justify-center items-center">   
           {`${count}` + " ACTIVE LISTINGS SORTED BY"} 
         </h2>
