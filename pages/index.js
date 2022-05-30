@@ -203,11 +203,11 @@ export default function Home(/* {id, nft, metadata } */) {
 
         <meta name="twitter:title" content="Finders Fee Finder"
         />
-{/*          <meta name="twitter:description" content=""
-        /> */}
+
         <meta name="twitter:image" content="https://findersfeefinder.xyz/finders_fee_img.png"
         />           
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="https://findersfeefinder.xyz/finders_fee_img.png" />
+        <link rel="apple-touch-icon" href="https://findersfeefinder.xyz/finders_fee_img.png" />
       </Head>
       <main className="text-white min-h-screen px-0 py-8 flex flex-1 flex-col  items-center">                        
         <Header />
