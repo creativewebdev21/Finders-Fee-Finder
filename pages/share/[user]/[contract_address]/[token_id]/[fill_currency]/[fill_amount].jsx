@@ -31,6 +31,11 @@ const shortenedAddress = (address) => {
 const SharePage = () => {
    const router = useRouter(); 
    const { user, contract_address, token_id, fill_currency, fill_amount } = router.query;    
+   
+   const shareableLink = "https://finders-fee-finder.vercel.app/share/" + `${user}/` + `${contract_address}/` + `${token_id}/` + `${fill_currency}/` + `${fill_amount}`
+   console.log(shareableLink)
+   
+   
    const { data: userAddress, isError: accountError, isLoading: accountLoading } = useAccount({
       onError(error) {
          console.log("error", error)
@@ -186,16 +191,24 @@ const SharePage = () => {
                </div>
             ) :  */}
 
-            <div className=" mt-2 flex flex-row flex-wrap justify-center">
+            <div className=" w-full mt-2 flex flex-row flex-wrap justify-center">
                <button
                   className="w-fit sm:text-lg relative flex flex-row items-center justify-center p-2 bg-black border-4 border-solid border-white hover:bg-[#c3f53b] hover:text-black" 
                   onClick={() => fillWrite()}
                >
                   {"PURCHASE FOR " + `${fill_amount}` + " " + currencyCheck(fill_currency ? fill_currency : "")}
                </button>
-            </div>            
+            </div>
+            <div className=" w-full mt-4 flex flex-row flex-wrap justify-center">
+               <button
+                  className="w-fit sm:text-lg relative flex flex-row items-center justify-center p-2 bg-black border-4 border-solid border-white hover:bg-[#c3f53b] hover:text-black" 
+                  onClick={() => navigator.clipboard.writeText(shareableLink)}
+               >
+                  GENERATE SHARE LINK
+               </button>
+            </div>                  
             <div className=" mt-4 p-2 w-full flex flex-row items-center justify-center">
-               {"C U R A T E D" + " __ " + "B Y"} 
+               {"C U R A T E D __ B Y"} 
             </div>
             <div className="  p-2 w-full flex flex-row items-center justify-center">
                <a                   
@@ -203,7 +216,7 @@ const SharePage = () => {
                >
                   {"" + shortenedAddress(user)} 
                </a>
-            </div>         
+            </div>        
          </div>
       </div>
    )
