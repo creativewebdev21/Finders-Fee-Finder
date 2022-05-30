@@ -16,44 +16,6 @@ const APIURL2 = "https://api.zora.co/graphql"
 // link to zora mainnet indexer: https://indexer-prod-mainnet.zora.co/v1/graphql
 // link to new zora indexer (works on multiple chains): "https://api.zora.co/graphql"
 
-
-// const newIndexer = ` 
-//   query MyQuery {
-//     markets(filter: {priceFilter: {currencyAddress: "0x0000000000000000000000000000000000000000"}, marketFilters: {marketType: V3_ASK, statuses: ACTIVE}}, pagination: {limit: 500}, networks: {network: ETHEREUM, chain: MAINNET}) {
-//       nodes {
-//         market {
-//           properties {
-//             ... on V3Ask {
-//               address
-//               askCurrency
-//               collectionAddress
-//               seller
-//               tokenId
-//               findersFeeBps
-//               askPrice {
-//                 ethPrice {
-//                   decimal
-//                 }  
-//               }
-//               sellerFundsRecipient
-//             }
-//           }
-//           transactionInfo {
-//             transactionHash
-//           }
-//         }
-//         token {
-//           metadata
-//         }
-//       }
-//     }
-//   }
-// `
-
-// const client2 = createClient({
-//   url: APIURL2
-//   })
-
 const v3AsksAggregateQuery = ` 
 query {
   V3Ask_aggregate(
@@ -159,7 +121,7 @@ export default function Home(/* {id, nft, metadata } */) {
     }
 
   const fetchData = async () => {
-    console.log("fetch data")
+    console.log("fetching data")
 
     try {
       setLoading(true);
@@ -194,9 +156,21 @@ export default function Home(/* {id, nft, metadata } */) {
     }
   }
 
+  const advancedFilter = () => {
+    if (!!rawData) {
+      const specificToken = rawData.filter((ask) => {
+        if(ask.tokenContract === contractAddress && ask.tokenId === tokenId){
+          return ask; 
+        } 
+      }); 
+      setCurrentData(specificToken)
+    } else {
+      return
+    }
+  }  
+
   useEffect(() => {
     fetchData();
-    console.log("checking curernt state load", currentData)
     }, 
     []
   )
@@ -211,26 +185,6 @@ export default function Home(/* {id, nft, metadata } */) {
       sortDirection
     ] // this is passing sortFilter + sortDirection in as dependencies, so whenever they change useEffect will run again
   )
-
-
-  // ==== ADVANCED SEARCH =====
-  const advancedFilter = () => {
-    console.log("running")
-    if (!!rawData) {
-      console.log("what went into advanced filter: ", rawData)
-      const specificToken = rawData.filter((ask) => {
-        if(ask.tokenContract === contractAddress && ask.tokenId === tokenId){
-          return ask; 
-        } 
-      }); 
-      console.log("specificToken = ", specificToken)
-      setCurrentData(specificToken)
-    } else {
-      return
-    }
-  }  
-  // ==== ADVANCED SEARCH =====
-
 
   return (
     <div className='px-8 py-0'>
@@ -255,3 +209,42 @@ export default function Home(/* {id, nft, metadata } */) {
   )
 }
 
+
+// saving new indexer integration code for later 
+//
+// const newIndexer = ` 
+//   query MyQuery {
+//     markets(filter: {priceFilter: {currencyAddress: "0x0000000000000000000000000000000000000000"}, marketFilters: {marketType: V3_ASK, statuses: ACTIVE}}, pagination: {limit: 500}, networks: {network: ETHEREUM, chain: MAINNET}) {
+//       nodes {
+//         market {
+//           properties {
+//             ... on V3Ask {
+//               address
+//               askCurrency
+//               collectionAddress
+//               seller
+//               tokenId
+//               findersFeeBps
+//               askPrice {
+//                 ethPrice {
+//                   decimal
+//                 }  
+//               }
+//               sellerFundsRecipient
+//             }
+//           }
+//           transactionInfo {
+//             transactionHash
+//           }
+//         }
+//         token {
+//           metadata
+//         }
+//       }
+//     }
+//   }
+// `
+
+// const client2 = createClient({
+//   url: APIURL2
+//   })

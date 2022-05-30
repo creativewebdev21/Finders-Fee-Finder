@@ -21,17 +21,6 @@ const currencyCheck = (currency) => {
    }
 }
 
-
-/* const truncateNumber = (number) => {
-   const stringNumber = number.toString()
-   if ( stringNumber.length > 6) {
-      const shortenNumber = number.toFixed(2)
-      return shortenNumber
-   } else {
-      return number
-   }
-} */
-
 const shortenedAddress = (address) => {
    let displayAddress = address?.substr(0,4) + "..." + address?.substr(-4)
    return displayAddress
@@ -52,37 +41,14 @@ const SharePage = () => {
          console.log("error", error)
       }   
    })
-   // const userAddressCheck = userAddress?.data?.address || "";
+   
    const nftAddress = contract_address;
    const nftId = token_id
    const fillCurrency = fill_currency
-   const test = 10
-/*    const fillAmountString = fill_amount?.toString() || ''; */
-   // const fillAmountParsed = ethers.utils.parseEther(fillAmountString)
-   // const fillAmountParsed = 600;
+   const fillAmountString = fill_amount ? String(fill_amount) : "000"; 
+   console.log("what is fillamountString = ". fillAmountString)
 
    const finderAddress = user;
-
-
-
-   // zora askV1_1 approval write call - will show up is user hasn't approved module befoer
-   const { data: approvalWriteData, isError: approvalWriteError, isLoading: approvalWriteLoading, write: approvalWrite } = useContractWrite(
-      {
-         addressOrName: mainnetZoraAddresses.ZoraModuleManager,
-         contractInterface: ZoraModuleManager__factory.abi
-      },
-      "setApprovalForModule",
-      {
-         args: [
-            mainnetZoraAddresses.AsksV1_1,
-            true
-         ],
-         onError(error) {
-            console.log("error", error)
-         }
-      }
-   )
-
 
    // zora asksV1_1 fillAsk write call 
    const { data: fillWriteData, isError: fillWriteError, isLoading: fillWriteLoading, write: fillWrite } = useContractWrite(
@@ -96,11 +62,11 @@ const SharePage = () => {
             nftAddress,
             nftId,
             fillCurrency,
-            BigNumber.from(ethers.utils.parseEther(test.toString())).toString(),
+            BigNumber.from(ethers.utils.parseEther(fillAmountString)).toString(),
             finderAddress,
          ],
          overrides: {
-            value: BigNumber.from(ethers.utils.parseEther(test.toString())).toString()
+            value: BigNumber.from(ethers.utils.parseEther(fillAmountString)).toString()
          }
       }
    )
@@ -205,12 +171,12 @@ const SharePage = () => {
                </button>            
             </div>  
             <div className=" w-full mt-2 flex flex-row flex-wrap justify-center">
-            { userAddress || accountError || accountLoading == null ? (     
+            { (userAddress !== null &&  accountError !== null && accountLoading !== null) ? (     
                <button
                   className="w-11/12 sm:w-9/12 md:w-6/12 lg:w-4/12 sm:text-lg relative flex flex-row items-center justify-center p-2 bg-black border-4 border-solid border-white hover:bg-[#c3f53b] hover:text-black" 
                   onClick={() => fillWrite()}
                >
-                  {"PURCHASE FOR " + `${fill_amount}` + " " + currencyCheck(fill_currency ? fill_currency : "")}
+                  {"PURCHASE FOR " + `${fill_amount ? fill_amount : ""}` + " " + currencyCheck(fill_currency ? fill_currency : "")}
                </button>
             ) : ( 
                <button
@@ -279,3 +245,21 @@ export default SharePage
    }
 },
 [userAddress]) */
+
+   // zora askV1_1 approval write call - will show up is user hasn't approved module befoer
+   // const { data: approvalWriteData, isError: approvalWriteError, isLoading: approvalWriteLoading, write: approvalWrite } = useContractWrite(
+   //    {
+   //       addressOrName: mainnetZoraAddresses.ZoraModuleManager,
+   //       contractInterface: ZoraModuleManager__factory.abi
+   //    },
+   //    "setApprovalForModule",
+   //    {
+   //       args: [
+   //          mainnetZoraAddresses.AsksV1_1,
+   //          true
+   //       ],
+   //       onError(error) {
+   //          console.log("error", error)
+   //       }
+   //    }
+   // )
