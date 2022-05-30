@@ -31,7 +31,7 @@ const DisplayDataHeader = ({ count, inputContract, inputTokenId, advancedFilterC
 
 export const LoadingHeaderData = () => (
   <div className="mt-5">
-    f i n d i n g  _  f i n d e r ' s  _  f e e s . . .
+    ::: F I N D I N G ::: F I N D E R ' S ::: F E E S :::
   </div>
 )
 export default DisplayDataHeader
