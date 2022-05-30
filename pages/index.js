@@ -194,16 +194,18 @@ export default function Home(/* {id, nft, metadata } */) {
         <meta name="og:title" content="Finder's Fee Finder" />
         <meta
           property="og:image"
-          content="https://findersfeefinder.xyz/finders_fee_quote.png"
+          content="https://findersfeefinder.xyz/finders_fee_img.png"
         />
         <meta name="twitter:card" content="summary_large_image"
+        />
+        <meta name="twitter:description" content="~~~"
         />
 
         <meta name="twitter:title" content="Finders Fee Finder"
         />
 {/*          <meta name="twitter:description" content=""
         /> */}
-        <meta name="twitter:image" content="https://findersfeefinder.xyz/finders_fee_quote.png"
+        <meta name="twitter:image" content="https://findersfeefinder.xyz/finders_fee_img.png"
         />           
         <link rel="icon" href="/favicon.ico" />
       </Head>
