@@ -47,43 +47,6 @@ const shortenedAddress = (address) => {
    return displayAddress
 }
 
-function MyPopover({ nftInfo }) {
-   return (
-      <Popover className="relative mb-2 flex flex-row justify-center">
-         <Popover.Button
-            className="text-white w-9/12 justify-center justify-self-center py-1 px-2 border-4 border-solid border-white hover:bg-[#c3f53b] hover:text-black"
-         >
-            MORE INFO
-         </Popover.Button>
-         <Popover.Panel className="absolute z-10">
-            <div className="askInfoBlobsCleaned">
-               <div className="dataFields">
-                  <div className="dataFieldsIndividuals" >CURRENCY</div>
-                  <div className="dataFieldsIndividuals" >PRICE</div>
-                  <div className="dataFieldsIndividuals" >SELLER</div>
-                  <div className="dataFieldsIndividuals" >NFT CONTRACT</div>
-                  <div className="dataFieldsIndividuals" >NFT ID</div>
-                  <div className="dataFieldsIndividuals">FINDER'S FEE</div>                        
-               </div>
-               <div className="dataValues">                        
-                  <div className="dataValuesIndividuals" > {"" + currencyCheck(nftInfo.askCurrency)}</div>
-                  <div className="dataValuesIndividuals"> {"" + nftInfo.simpleETH + " " + currencyCheck(nftInfo.askCurrency)}</div>
-                  <div className="dataValuesIndividuals"> {"" + nftInfo.seller}</div>
-                  <div className="dataValuesIndividuals"> {"" + nftInfo.tokenContract}</div>               
-                  <div className="dataValuesIndividuals"> {"" + nftInfo.tokenId}</div>
-                  <div className="dataValuesIndividuals">{"" + nftInfo.totalBounty + " " + currencyCheck(nftInfo.askCurrency)}</div>                                                                          
-               </div>                                                                                                     
-            </div>
-         </Popover.Panel>
-      </Popover>
-   )
-} 
-
-
-
-
-
-
 
 const DisplayData = ({ asks }) => {
 
@@ -117,6 +80,7 @@ const DisplayData = ({ asks }) => {
                                  audioColors: { waveformColor: "white", progressColor: "#c3f53b"},
                                  useZoraUsernameResolution: "false",
                                  borderStyle: "4px white solid",
+                                 defaultBorderRadius: "0px",
                                  spacingUnit: "0",
                                  textBlockPadding: "0",
                                  placeHolderColor: "black",
@@ -185,13 +149,8 @@ const DisplayData = ({ asks }) => {
                               SHARE
                            </button>
                         </Link>
-                        )}                        
-                        
-                        <MoreInfo nftInfo={ask} />                                         
-                        {/* <MyPopover className="row-span-3 col-span-1" nftInfo={ask} /> */}
-                     
-                     
-                     
+                        )}                                                
+                        <MoreInfo nftInfo={ask} />                                                                                      
                      </div>
                   </div>
                </div>)

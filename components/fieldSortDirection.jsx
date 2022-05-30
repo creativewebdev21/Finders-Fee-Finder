@@ -21,7 +21,7 @@ import { useAppContext } from '../context/appContext.js';
     }
     
     return ( 
-      <div className="text-white mx-1 z-10">
+      <div className="text-white z-10">
         <Listbox value={sortDirection} onChange={select}>
           <div className="relative mt-1">
             <Listbox.Button className="hover:bg-[#c3f53b] hover:text-black relative w-full cursor-pointer border-white border-2 border-solid bg-black py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-[#c3f53b] sm:text-lg">
@@ -39,7 +39,7 @@ import { useAppContext } from '../context/appContext.js';
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-black py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              <Listbox.Options className="absolute z-[12] mt-1 max-h-60 w-full overflow-auto bg-black text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                 {directionOptions.map((direction, directionIdx) => (
                   <Listbox.Option
                     key={directionIdx}

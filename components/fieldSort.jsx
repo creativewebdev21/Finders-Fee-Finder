@@ -22,7 +22,7 @@ import { useAppContext } from '../context/appContext';
     }
     
     return (
-      <div className="text-white mx-1 z-10">
+      <div className="text-white z-10">
         <Listbox value={sortFilter} onChange={select}>
           <div className="relative mt-1">
             <Listbox.Button className="hover:bg-[#c3f53b] hover:text-black cursor-pointer relative w-full border-solid border-white border-2 bg-black py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-[#c3f53b] sm:text-lg">
@@ -40,7 +40,7 @@ import { useAppContext } from '../context/appContext';
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-black py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              <Listbox.Options className="absolute z-[11] mt-1 max-h-60 w-full overflow-auto  bg-black text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                 {sortOptions.map((option, optionIdx) => (
                   <Listbox.Option
                     key={optionIdx}

@@ -67,7 +67,7 @@ export default function MoreInfo({ nftInfo }) {
                      <Dialog.Panel className="transform overflow-hidden bg-black align-middletransition-all shadow-[0_0px_30px_10px_rgba(0,0,0,1)]" >
                         <div className="p-4 flex flex-row flex-wrap border-white border-4 border-solid  my-2 overflow-hidden rounded-none shadow-lg">                        
                               <div className="pb-4 w-full flex flex-row justify-center items-center text-xl font-bold">MORE INFO</div>                    
-                              <div className="pb-4 w-full flex flex-row justify-center">
+                              <div className="pb-5 w-full flex flex-row justify-center">
                                  <div className="w-fit flex flex-col border-2 border-solid border-white ">
                                     <div className="p-1 border-b-2 border-solid border-white" >CURRENCY</div>
                                     <div className="p-1 border-b-2 border-solid border-white" >LIST PRICE</div>
@@ -94,8 +94,7 @@ export default function MoreInfo({ nftInfo }) {
                                     </a>   
                                     <div className="p-1">{"" + nftInfo.totalBounty + " " + currencyCheck(nftInfo.askCurrency)}</div>                                                                          
                                  </div>                                                                                                     
-                              </div>                   
-                                                
+                              </div>                                                                   
                               <div className="w-full flex flex-col items-center">    
                                  <button                                    
                                     className=" w-fit px-4 py-2 text-white bg-black rounded-none borer-solid border-white border-4 hover:bg-[#c3f53b] hover:text-black disabled:bg-black disabled:text-slate-800 disabled:border-slate-800 " 

@@ -6,17 +6,17 @@ const DisplayDataHeader = ({ count, inputContract, inputTokenId, advancedFilterC
 
   return (
     <>
-      <div className="grid grid-cols-3 grid-rows-2  mt-10 mb-10 w-fit">
-        <h2 className="row-span-1 col-start-1 col-end-4 flex flex-wrap justify-center items-center">   
-          <div className="text-[#c3f53b] mr-1">
+      <div className=" md:grid md:grid-cols-3 md:grid-rows-2 grid-cols-1 grid-rows-4 mt-10 mb-10 w-fit">
+        <h2 className="text-center row-span-1 col-start-1 col-end-4 flex flex-wrap justify-center items-center">   
+          <span className="text-[#c3f53b] pr-2">
             {count}
-          </div>
+          </span>
           ACTIVE LISTINGS SORTED BY
         </h2>
         <FieldSort className="row-span-2 col-start-1 col-end-2" />
-        <FieldSortDirection className="row-span-2 col-start-2 col-end-3" />
+        <FieldSortDirection className="md:row-span-2 md:col-start-2 md:col-end-3 row-span-3 col-start-1 col-end-2" />
         <TokenLookup
-          className="ml-5 row-span-2 col-start-3 col-end-4"
+          className="ml-5 md:row-span-2 md:col-start-3 md:col-end-4 row-span-4 col-start-1 col-end-2 "
           inputContract={inputContract}
           inputTokenId={inputTokenId}
           advancedFilterCB={advancedFilterCB}

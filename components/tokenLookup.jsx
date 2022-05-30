@@ -17,12 +17,12 @@ export default function TokenLookup({ inputContract, inputTokenId, advancedFilte
          <button
             type="button"
             onClick={openModal}
-            className="sm:text-lg relative mt-1 mx-1 flex flex-row justify-self-center p-2 bg-black border-2 border-solid border-white hover:bg-[#c3f53b] hover:text-black"
+            className="w-full sm:text-lg relative mt-1 flex flex-row p-2 pl-3 bg-black border-2 border-solid border-white hover:bg-[#c3f53b] hover:text-black"
          >
             ADVANCED SEARCH
          </button>
          <Transition appear show={isOpen} as={Fragment}>
-            <Dialog as="div" className="relative z-10" onClose={closeModal}>
+            <Dialog as="div" className="relative z-[60]" onClose={closeModal}>
                <Transition.Child
                   as={Fragment}
                   enter="ease-out duration-300"
