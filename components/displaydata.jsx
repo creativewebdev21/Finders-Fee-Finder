@@ -165,7 +165,7 @@ const DisplayData = ({ asks }) => {
 
 export const LoadingData = () => (
    <div className="mt-5">
-      Loading Data . . .
+      loading data . . .
    </div>
 )
 export default DisplayData

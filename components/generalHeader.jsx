@@ -11,7 +11,7 @@ export default function Header() {
          <div className=" text-center pt-4 m-0 text-6xl leading-tight">
             FINDER'S FEE FINDER ☽
          </div>
-         <h2 className='mt-2 flex flex-row justify-center flex-nowrap'>
+         <h2 className=' text-3xl mt-2 flex flex-row justify-center flex-nowrap'>
             <Link  href="/">
                <a className="mx-5" >
                   HOME
