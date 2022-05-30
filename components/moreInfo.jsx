@@ -19,6 +19,16 @@ const shortenedAddress = (address) => {
    return displayAddress
 }
 
+const truncateNumber = (number) => {
+   const stringNumber = number.toString()
+   if ( stringNumber.length > 6) {
+      const shortenNumber = number.toFixed(2)
+      return shortenNumber
+   } else {
+      return number
+   }
+}
+
 export default function MoreInfo({ nftInfo }) {
    let [isOpen, setIsOpen] = useState(false)
 
@@ -92,7 +102,7 @@ export default function MoreInfo({ nftInfo }) {
                                     <a href={`${etherscanBlockExplorers.mainnet.url}` + `/nft` + `/${nftInfo.tokenContract}` + `/${nftInfo.tokenId}` }>
                                        <div className="p-1 border-b-2 border-solid border-white"> {"" + nftInfo.tokenId}</div>
                                     </a>   
-                                    <div className="p-1">{"" + nftInfo.totalBounty + " " + currencyCheck(nftInfo.askCurrency)}</div>                                                                          
+                                    <div className="p-1">{"" + truncateNumber(nftInfo.totalBounty) + " " + currencyCheck(nftInfo.askCurrency)}</div>                                                                          
                                  </div>                                                                                                     
                               </div>                                                                   
                               <div className="w-full flex flex-col items-center">    

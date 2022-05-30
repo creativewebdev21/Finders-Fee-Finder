@@ -28,25 +28,10 @@ const truncateNumber = (number) => {
    }
 }
 
-/* const addressResolver = (addressBro) => {
-   const { data: ensData, isError: ensError, isLoading: ensLoading, isSuccess: ensSuccess } = useEnsName({
-      address: addressBro,
-      onSuccess(ensData) {
-         console.log("Success", ensData)
-         return ensData
-      },
-      onError(error) {
-         console.log('Error', error)
-         return error
-      }
-   }) 
-}   */
-
 const shortenedAddress = (address) => {
    let displayAddress = address?.substr(0,4) + "..." + address?.substr(-4)
    return displayAddress
 }
-
 
 const DisplayData = ({ asks }) => {
 
@@ -61,43 +46,43 @@ const DisplayData = ({ asks }) => {
                
                <div key={ask.id} className="dataheader">                 
                   <div className="bountyHeaderAndDataWrapper">                     
-                        <MediaConfiguration // link to style docs: https://ourzora.github.io/nft-components/?path=/docs/renderer-mediaconfiguration--page
-                           strings={{
-                              CARD_OWNED_BY: "",
-                              CREATED: "",
-                              COLLECTED: "",
-                              CARD_CREATED_BY: "",
-                              CREATOR: "",
-                              OWNER: ""
-                           }}
-                           
-                           style={{                
-                              theme: { 
-                                 previewCard: { background: "black" }, 
-                                 linkColor: "color: transparent", 
-                                 titleFont: "color: transparent",
-                                 bodyFont: "color: trasnparent",  
-                                 audioColors: { waveformColor: "white", progressColor: "#c3f53b"},
-                                 useZoraUsernameResolution: "false",
-                                 borderStyle: "4px white solid",
-                                 defaultBorderRadius: "0px",
-                                 spacingUnit: "0",
-                                 textBlockPadding: "0",
-                                 placeHolderColor: "black",
-                                 lineSpacing: "0"                              
-                              } 
-                           }}
-                        >
-                           <a href={`${etherscanBlockExplorers.mainnet.url}` + `/nft` + `/${ask.tokenContract}` + `/${ask.tokenId}` }>
-                              <NFTPreview
-                                 useBetaIndexer="true"
-                                 contract={ask.tokenContract.toString()}
-                                 id={ask.tokenId.toString()}
-                                 showBids={false}
-                                 showPerpetual={false}
-                              />
-                           </a>
-                        </MediaConfiguration>                     
+                     <MediaConfiguration // link to style docs: https://ourzora.github.io/nft-components/?path=/docs/renderer-mediaconfiguration--page
+                        strings={{
+                           CARD_OWNED_BY: "",
+                           CREATED: "",
+                           COLLECTED: "",
+                           CARD_CREATED_BY: "",
+                           CREATOR: "",
+                           OWNER: ""
+                        }}
+                        
+                        style={{                
+                           theme: { 
+                              previewCard: { background: "black" }, 
+                              linkColor: "color: transparent", 
+                              titleFont: "color: transparent",
+                              bodyFont: "color: trasnparent",  
+                              audioColors: { waveformColor: "white", progressColor: "#c3f53b"},
+                              useZoraUsernameResolution: "false",
+                              borderStyle: "4px white solid",
+                              defaultBorderRadius: "0px",
+                              spacingUnit: "0",
+                              textBlockPadding: "0",
+                              placeHolderColor: "black",
+                              lineSpacing: "0"                              
+                           } 
+                        }}
+                     >
+                        <a href={`${etherscanBlockExplorers.mainnet.url}` + `/nft` + `/${ask.tokenContract}` + `/${ask.tokenId}` }>
+                           <NFTPreview
+                              useBetaIndexer="true"
+                              contract={ask.tokenContract.toString()}
+                              id={ask.tokenId.toString()}
+                              showBids={false}
+                              showPerpetual={false}
+                           />
+                        </a>
+                     </MediaConfiguration>                     
                      <div className="grid grid-cols-1 grid-rows-2 gap-2 ">                                          
                         <div className="w-9/12  m-0 row-span-1 col-span-1 text-[#c3f53b] flex flex-row place-content-between justify-self-center items-center text-xl ">
                            <div className=" text-white px-1 flex flex-row justify-self-center justify-center">
@@ -127,9 +112,7 @@ const DisplayData = ({ asks }) => {
                            </div>
                            <div className=" bg-white text-black px-2 py-1 flex flex-row justify-self-end justify-end justify-items-end">
                               {truncateNumber(ask.totalBounty) + " ETH"}   
-                           </div>
-                        
-                           
+                           </div>                                                   
                         </div>
                         { accountLoading || accountError || account == null ? (             
                            <button

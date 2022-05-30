@@ -1,8 +1,6 @@
 import Head from 'next/head'
 import { ethers } from "ethers"
 import { useEffect, useState } from 'react';
-import { Popover } from '@headlessui/react';
-import Link from 'next/link';
 import { useAppContext } from '../context/appContext.js'; // import based on where you put it
 
 // urql graphql import
@@ -13,13 +11,8 @@ import Header from '../components/generalHeader.jsx';
 import DisplayData, {LoadingData} from '../components/displaydata';
 import DisplayDataHeader, {LoadingHeaderData} from '../components/displaydataheader';
 
-
-
-
-
 const APIURL = "https://indexer-prod-mainnet.zora.co/v1/graphql";
 const APIURL2 = "https://api.zora.co/graphql"
-// link to zora rinkeby indexer: https://indexer-dev-rinkeby.zora.co/v1/graphql
 // link to zora mainnet indexer: https://indexer-prod-mainnet.zora.co/v1/graphql
 // link to new zora indexer (works on multiple chains): "https://api.zora.co/graphql"
 
@@ -121,10 +114,7 @@ export default function Home(/* {id, nft, metadata } */) {
           {
             status: {_eq: "ACTIVE"}, 
             findersFeeBps: {_neq: 0},
-            askCurrency: {_eq: "0x0000000000000000000000000000000000000000"}
-            #seller: {_eq: "0x806164c929Ad3A6f4bd70c2370b3Ef36c64dEaa8"} 
-            #tokenContract: {_eq: "0x6C0845540C0b7B868C3a1739246fC99aDEDC8036"}
-            #tokenId: {_eq: "1"}   
+            askCurrency: {_eq: "0x0000000000000000000000000000000000000000"} 
           }
           limit: 2
           offset: ${i * 100}
@@ -179,21 +169,23 @@ export default function Home(/* {id, nft, metadata } */) {
       const numOfCallsRequired = Math.ceil(aggDataCount / 100)
       setAskCount(aggDataCount)
 
+      // generates all the graphql queries that will be called
       const finalV3CallArray = generateCalls(numOfCallsRequired);
 
+      // uses the generated graphql queries to generate the promised that will be called
       const finalV3Promises = generateQueries(finalV3CallArray, numOfCallsRequired)
 
+      // calls all of the promises
       const promiseReturns = await runPromises(finalV3Promises);
 
+      // cleans promiseReturns
       const promiseResults = concatPromiseResults(promiseReturns);
 
+      // cleans + enriches promiseResults
       const enrichedArray = enrichData(promiseResults);
 
       setRawData(enrichedArray);
       setCurrentData(sortData(enrichedArray)); 
-
-      // const swag = await client2.query(newIndexer).toPromise();
-      // console.log("new indexer test: ", swag);
 
     } catch(error){
       console.error(error.message);
@@ -206,7 +198,7 @@ export default function Home(/* {id, nft, metadata } */) {
     fetchData();
     console.log("checking curernt state load", currentData)
     }, 
-    [] // this is passing sortFilter in as a dependency, so whenever it changes useEffect will run again
+    []
   )
 
   useEffect(() => {
@@ -217,7 +209,7 @@ export default function Home(/* {id, nft, metadata } */) {
     [
       sortFilter, 
       sortDirection
-    ] // this is passing sortFilter in as a dependency, so whenever it changes useEffect will run again
+    ] // this is passing sortFilter + sortDirection in as dependencies, so whenever they change useEffect will run again
   )
 
 

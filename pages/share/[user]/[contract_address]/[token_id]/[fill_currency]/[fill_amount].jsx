@@ -8,6 +8,9 @@ import mainnetZoraAddresses from "@zoralabs/v3/dist/addresses/1.json";
 import { ZoraModuleManager__factory } from "@zoralabs/v3/dist/typechain/factories/ZoraModuleManager__factory";
 import { AsksV11__factory } from "@zoralabs/v3/dist/typechain/factories/AsksV11__factory";
 import { useEffect } from 'react';
+import Header from '../../../../../../components/generalHeader';
+import MoreInfo from '../../../../../../components/moreInfo';
+import { etherscanBlockExplorers } from 'wagmi';
 
 
 const currencyCheck = (currency) => {
@@ -18,6 +21,11 @@ const currencyCheck = (currency) => {
    }  else {
       return "NON INDEXED CURRENCY"
    }
+}
+
+const shortenedAddress = (address) => {
+   let displayAddress = address?.substr(0,4) + "..." + address?.substr(-4)
+   return displayAddress
 }
 
 const SharePage = () => {
@@ -40,30 +48,32 @@ const SharePage = () => {
    const finderAddress = user;
 
    // zora askV1_1 approval read - reruns if user changes wallets
-   const { data: approvalReadData, isError: approvalReadError, isLoading: approvalReadLoading, refetch } = useContractRead(
-      {
-         addressOrName: mainnetZoraAddresses.ZoraModuleManager,
-         contractInterface: ZoraModuleManager__factory.abi
-      },
-      "isModuleApproved",
-      {
-         enabled: false
-      },
-      {
-         args: [
-            userAddressCheck, // might need to change this line as its causing build issues: if no user address (no one logged in) then this errors out?
-            mainnetZoraAddresses.AsksV1_1
-         ],
-         onError(error) {
-            console.log("error", error)
-         },
-         onSuccess(data) {
-            console.log("success", data)
-         },
-      },   
-   )
 
-   useEffect(() => {
+   // taken out atm as live site filters out non ETH priced assets
+   // user doesn't need to approve transfer helpers or ZORA modules if purchasing with just ETH
+   // source: https://docs.zora.co/docs/guides/v3-approvals
+
+   // const { data: approvalReadData, isError: approvalReadError, isLoading: approvalReadLoading, refetch } = useContractRead(
+   //    {
+   //       addressOrName: mainnetZoraAddresses.ZoraModuleManager,
+   //       contractInterface: ZoraModuleManager__factory.abi
+   //    },
+   //    "isModuleApproved",
+   //    {
+   //       args: [
+   //          user, // might need to change this line as its causing build issues: if no user address (no one logged in) then this errors out?
+   //          mainnetZoraAddresses.AsksV1_1
+   //       ],
+   //       onError(error) {
+   //          console.log("error", error)
+   //       },
+   //       onSuccess(data) {
+   //          console.log("read success", data)
+   //       },
+   //    },   
+   // )
+
+/*    useEffect(() => {
       if (userAddress) {
          refetch({
             throwOnError: false,
@@ -72,7 +82,7 @@ const SharePage = () => {
          console.log("ran refetch")
       }
    },
-   [userAddress])
+   [userAddress]) */
 
    // zora askV1_1 approval write call - will show up is user hasn't approved module befoer
    const { data: approvalWriteData, isError: approvalWriteError, isLoading: approvalWriteLoading, write: approvalWrite } = useContractWrite(
@@ -116,46 +126,55 @@ const SharePage = () => {
 
 
    return (
-      <div>
+      <div className="py-8">    
          <div className=" fixed top-3 right-3">
             <ConnectButton accountStatus="address"  />
          </div>
+         <Header />  
          <div className='flex flex-row justify-center'>
             <MediaConfiguration // link to style docs: https://ourzora.github.io/nft-components/?path=/docs/renderer-mediaconfiguration--page
                strings={{
-                  CARD_OWNED_BY: "OWNER: ",
+                  CARD_OWNED_BY: "",
                   CREATED: "",
                   COLLECTED: "",
-                  CARD_CREATED_BY: "CREATOR: ",
+                  CARD_CREATED_BY: "",
+                  CREATOR: "",
                   OWNER: ""
                }}
                
                style={{                
                   theme: { 
                      previewCard: { background: "black" }, 
-                     linkColor: "#c3f53b", 
-                     titleFont: "color: #c3f53b",
-                     bodyFont: "color: white",  
+                     linkColor: "color: transparent", 
+                     titleFont: "color: transparent",
+                     bodyFont: "color: trasnparent",  
                      audioColors: { waveformColor: "white", progressColor: "#c3f53b"},
                      useZoraUsernameResolution: "false",
                      borderStyle: "4px white solid",
-                     spacingUnit: "5px",
-                     textBlockPadding: "10px",
+                     defaultBorderRadius: "0px",
+                     spacingUnit: "0",
+                     textBlockPadding: "0",
                      placeHolderColor: "black",
-                     lineSpacing: "25"                              
+                     lineSpacing: "0"                                
                   } 
                }}
-            >            
-               <NFTPreview
-                  useBetaIndexer="true"
-                  contract={contract_address}
-                  id={token_id}
-                  showBids={false}
-                  showPerpetual={false}
-               />
+            >
+               <a href={`${etherscanBlockExplorers.mainnet.url}` + `/nft` + `/${contract_address}` + `/${token_id}` }>            
+                  <NFTPreview
+                     useBetaIndexer="true"
+                     contract={contract_address}
+                     id={token_id}
+                     showBids={false}
+                     showPerpetual={false}
+                  />
+               </a>
             </MediaConfiguration>   
          </div>
-         <div className="grid grid-cols-1 grid-rows-6 ">
+         <div className="flex flex-row flex-wrap justify-center">
+
+            {/*      logic for adding in a check to see if 
+                     user has approved zora transfer helpers/modules
+               
             { approvalReadData == false ? (
                <div className='grid grid-cols-1 grid-rows-2'>
                   <button className='bg-blue-500 w-20 ' onClick={() => approvalWrite()}>
@@ -165,36 +184,26 @@ const SharePage = () => {
                      PURCHASE DISABLED
                   </button>
                </div>
-            ) : 
-               <div>
-                  <div>
-                     Approvals complete
-                  </div>
-                  <button className="bg-green-800" onClick={() => fillWrite()}>
-                     PURCHASE
-                  </button>
-               </div>
-            }         
-            <div>
-            {`finder address : ${user ? user : ""}`}
+            ) :  */}
+
+            <div className=" mt-2 flex flex-row flex-wrap justify-center">
+               <button
+                  className="w-fit sm:text-lg relative flex flex-row items-center justify-center p-2 bg-black border-4 border-solid border-white hover:bg-[#c3f53b] hover:text-black" 
+                  onClick={() => fillWrite()}
+               >
+                  {"PURCHASE FOR " + `${fill_amount}` + " " + currencyCheck(fill_currency ? fill_currency : "")}
+               </button>
+            </div>            
+            <div className=" mt-4 p-2 w-full flex flex-row items-center justify-center">
+               {"C U R A T E D" + " __ " + "B Y"} 
             </div>
-            <div>
-            {`nft contract address : ${contract_address ? contract_address : ""}`}
-            </div>
-            <div>
-            {`nft token id : ${token_id ? token_id : ""}`}
-            </div>
-            <div>
-            {`fill currency : ${fill_currency ? fill_currency : ""}`}
-            </div>
-            <div>
-            {`fill amount : ${fill_amount ? fill_amount : ""}` + " " + currencyCheck(fill_currency ? fill_currency : "") }
-            </div>
-         </div>
-         <div>
-            <Link href="/">
-               <a>← Back to home</a>      
-            </Link>
+            <div className="  p-2 w-full flex flex-row items-center justify-center">
+               <a                   
+                  href={`${etherscanBlockExplorers.mainnet.url}` + `/address/` + `${user}` }
+               >
+                  {"" + shortenedAddress(user)} 
+               </a>
+            </div>         
          </div>
       </div>
    )
