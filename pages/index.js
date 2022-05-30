@@ -198,7 +198,7 @@ export default function Home(/* {id, nft, metadata } */) {
         />
         <meta name="twitter:card" content="summary_large_image"
         />
-        <meta name="twitter:description" content="~~~"
+        <meta name="twitter:description" content="created by tranqui.eth"
         />
 
         <meta name="twitter:title" content="Finders Fee Finder"
