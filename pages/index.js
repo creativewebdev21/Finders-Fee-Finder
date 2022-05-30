@@ -116,7 +116,7 @@ export default function Home(/* {id, nft, metadata } */) {
             findersFeeBps: {_neq: 0},
             askCurrency: {_eq: "0x0000000000000000000000000000000000000000"} 
           }
-          limit: 2
+          limit: 100
           offset: ${i * 100}
         ) {
           id
