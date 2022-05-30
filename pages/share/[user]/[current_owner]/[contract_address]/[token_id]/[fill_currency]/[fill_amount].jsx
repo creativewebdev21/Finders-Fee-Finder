@@ -2,7 +2,6 @@ import { useRouter } from 'next/router'
 import { NFTPreview, MediaConfiguration } from '@zoralabs/nft-components';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount, useContractWrite, useContractRead, etherscanBlockExplorers } from 'wagmi';
-import Link from 'next/link';
 import { ethers, BigNumber } from 'ethers';
 import mainnetZoraAddresses from "@zoralabs/v3/dist/addresses/1.json";
 import { ZoraModuleManager__factory } from "@zoralabs/v3/dist/typechain/factories/ZoraModuleManager__factory";
@@ -139,6 +138,7 @@ const SharePage = () => {
                </div>                        
             </div>
          <div className="flex flex-row flex-wrap justify-center">
+
             {/*      logic for adding in a check to see if 
                      user has approved zora transfer helpers/modules
                      not currently needed since only ETH sales filtered
@@ -152,7 +152,8 @@ const SharePage = () => {
                      PURCHASE DISABLED
                   </button>
                </div>
-            ) :  */}                                                    
+            ) :  */}
+
          </div>
             <div className=" w-full mt-4 flex flex-row flex-wrap justify-center">
                <button

@@ -1,4 +1,3 @@
-import Link from "next/link"
 import Header from "../components/generalHeader"
 
 export default function About() {
