@@ -9,7 +9,6 @@ import { ZoraModuleManager__factory } from "@zoralabs/v3/dist/typechain/factorie
 import { AsksV11__factory } from "@zoralabs/v3/dist/typechain/factories/AsksV11__factory";
 import { useEffect } from 'react';
 import Header from '../../../../../../components/generalHeader';
-import MoreInfo from '../../../../../../components/moreInfo';
 import { etherscanBlockExplorers } from 'wagmi';
 
 
@@ -26,6 +25,11 @@ const currencyCheck = (currency) => {
 const shortenedAddress = (address) => {
    let displayAddress = address?.substr(0,4) + "..." + address?.substr(-4)
    return displayAddress
+}
+
+const copySuccess = () => {
+   alert("SHARE LINK COPIED TO CLIPBOARD")
+   return
 }
 
 const SharePage = () => {
@@ -49,7 +53,7 @@ const SharePage = () => {
 /*    const fillAmountString = fill_amount?.toString() || ''; */
    // const fillAmountParsed = ethers.utils.parseEther(fillAmountString)
    // const fillAmountParsed = 600;
- 
+
    const finderAddress = user;
 
    // zora askV1_1 approval read - reruns if user changes wallets
@@ -129,7 +133,6 @@ const SharePage = () => {
       }
    )
 
-
    return (
       <div className="py-8">    
          <div className=" fixed top-3 right-3">
@@ -202,7 +205,10 @@ const SharePage = () => {
             <div className=" w-full mt-4 flex flex-row flex-wrap justify-center">
                <button
                   className="w-fit sm:text-lg relative flex flex-row items-center justify-center p-2 bg-black border-4 border-solid border-white hover:bg-[#c3f53b] hover:text-black" 
-                  onClick={() => navigator.clipboard.writeText(shareableLink)}
+                  onClick={() => {
+                     navigator.clipboard.writeText(shareableLink)
+                     copySuccess() 
+                  }}
                >
                   GENERATE SHARE LINK
                </button>
