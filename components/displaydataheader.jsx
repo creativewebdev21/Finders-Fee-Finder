@@ -6,7 +6,7 @@ const DisplayDataHeader = ({ count, inputContract, inputTokenId, advancedFilterC
 
   return (
     <>
-      <div className=" md:grid md:grid-cols-3 md:grid-rows-2 grid-cols-1 grid-rows-4 mt-10 mb-10 w-fit">
+      <div className=" md:grid md:grid-cols-3 md:grid-rows-2 grid-cols-1 grid-rows-4 my-3 sm:my-5 w-fit">
         <h2 className="text-center row-span-1 col-start-1 col-end-4 flex flex-wrap justify-center items-center">   
           <span className="text-[#c3f53b] pr-2">
             {count}
