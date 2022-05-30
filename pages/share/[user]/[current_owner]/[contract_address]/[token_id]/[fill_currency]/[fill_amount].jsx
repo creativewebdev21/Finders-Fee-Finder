@@ -34,7 +34,7 @@ const copySuccess = () => {
 const SharePage = () => {
    const router = useRouter(); 
    const { user, current_owner, contract_address, token_id, fill_currency, fill_amount } = router.query;    
-   const shareableLink = "https://finders-fee-finder.vercel.app/share/" + `${user}/` + `${contract_address}/` + `${token_id}/` + `${fill_currency}/` + `${fill_amount}`
+   const shareableLink = "https://findersfeefinder.xyz/share/" + `${user}/` + `${contract_address}/` + `${token_id}/` + `${fill_currency}/` + `${fill_amount}`
    
    const { data: userAddress, isError: accountError, isLoading: accountLoading } = useAccount({
       onError(error) {
