@@ -6,7 +6,7 @@ import { useAppContext } from '../context/appContext';
   const sortOptions = [
 /*     { name: 'CURRENCY', queryValue: 'askCurrency' }, */
     { name: 'PRICE', queryValue: 'simpleETH' },
-    { name: 'SELLER', queryValue: 'seller' },
+    { name: 'OWNER', queryValue: 'seller' },
 /*     { name: 'NFT CONTRACT', queryValue: 'tokenContract' },
     { name: 'NFT ID', queryValue: 'tokenId' }, */
     { name: "FINDER'S FEE", queryValue: 'totalBounty' }
