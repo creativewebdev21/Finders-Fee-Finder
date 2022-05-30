@@ -202,7 +202,7 @@ export default function Home(/* {id, nft, metadata } */) {
         />
 {/*          <meta name="twitter:description" content=""
         /> */}
-        <meta name="twitter:image" content="../public/finders_fee_quote.png"
+        <meta name="twitter:image" content="https://findersfeefinder.xyz/finders_fee_quote.png"
         />           
         <link rel="icon" href="/favicon.ico" />
       </Head>
