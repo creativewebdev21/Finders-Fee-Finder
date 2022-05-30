@@ -33,7 +33,7 @@ export default function About() {
                      GET INVOLVED
                   </div>
                   <div>
-                     This is an open source project with many items that can already be improved. Here are a few that I have in mind already, feel free to submit pull requests for anything you think could improve the overall experience!
+                     This is an <a style={{ textDecoration: "underline", color: "#c3f53b" }} href="https://github.com/0xTranqui/Finders-Fee-Finder">open source project</a> with lots of things still to be done. Here are a few items I have in mind already, feel free to submit pull requests for anything that you think could improve the overall experience!
                   </div>
                   <div className="ml-5 mt-2">
                      - Create twitter bot that tracks the V3 Asks module and tweets everytime a new ask with a finder's fee has been created/fufilled/etc.
