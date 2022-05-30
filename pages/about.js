@@ -17,7 +17,7 @@ export default function About() {
                </div>
                <div className="mb-10">
                   <div className="mb-2 text-xl ">
-                  HOW TO USE IT
+                  HOW TO USE IT - <a style={{ textDecoration: "underline", color: "#c3f53b" }} href="https://www.loom.com/share/ee8579eb87544d3a95333f94a2c10848">VIDEO DEMO</a>
                   </div>
                   <div>
                      - Go to "HOME" page <br />
