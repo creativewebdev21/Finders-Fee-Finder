@@ -126,7 +126,7 @@ export default function Home(/* {id, nft, metadata } */) {
             #tokenContract: {_eq: "0x6C0845540C0b7B868C3a1739246fC99aDEDC8036"}
             #tokenId: {_eq: "1"}   
           }
-          limit: 100
+          limit: 2
           offset: ${i * 100}
         ) {
           id
@@ -323,7 +323,7 @@ export default function Home(/* {id, nft, metadata } */) {
 
       <footer className="flex flex-1 px-0 py-8 justify-center items-center border-t-1 border-solid border-t-white">      
         <a className="flex justify-center items-center grow"
-          href="https://www.twitter.com/0xTranqui"
+          href="https://tranqui.xyz/"
         >
           tranqui.eth
         </a>

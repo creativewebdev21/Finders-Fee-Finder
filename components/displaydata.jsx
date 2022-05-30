@@ -3,6 +3,7 @@ import { NFTPreview, MediaConfiguration } from "@zoralabs/nft-components"
 import { Popover } from "@headlessui/react"
 import Link from 'next/link';
 import { useAccount, useEnsName, etherscanBlockExplorers } from "wagmi";
+import MoreInfo from "./moreInfo";
 
 
 const currencyCheck = (currency) => {
@@ -185,7 +186,12 @@ const DisplayData = ({ asks }) => {
                            </button>
                         </Link>
                         )}                        
-                        <MyPopover className="row-span-3 col-span-1" nftInfo={ask} />
+                        
+                        <MoreInfo nftInfo={ask} />                                         
+                        {/* <MyPopover className="row-span-3 col-span-1" nftInfo={ask} /> */}
+                     
+                     
+                     
                      </div>
                   </div>
                </div>)
