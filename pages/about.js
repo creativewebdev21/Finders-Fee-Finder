@@ -25,7 +25,7 @@ export default function About() {
                      - Use sorts/earch to find a piece that speaks to you <br />
                      - Click "SHARE" on that piece, which will take you to your individualized share page<br />
                      - Click "GENERATE SHARE LINK" to copy the share URL to your clipboard. Spread link with the world !<br />
-                     - Your share link passes your wallet address as the "finder" into the Zora purchase function that is present on your individualized share page. If someone buys that NFT through your link, you receieve the finder's fee <br />
+                     - Your share link passes your wallet address as the "finder" into the ZORA purchase function that is present on your individualized share page. If someone buys that NFT through your link, you receieve the finder's fee <br />
                   </div>
                </div>
                <div className="mb-10">
