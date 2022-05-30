@@ -191,10 +191,10 @@ export default function Home(/* {id, nft, metadata } */) {
       <Head>
         <title>Finder's Fee Finder</title>
         <meta name="description" content="created by tranqui.eth" />
-        <meta name="og:title" content="created by tranqui.eth" />
+        <meta name="og:title" content="Finder's Fee Finder" />
         <meta
           property="og:image"
-          content="public/finders_fee_quote.png"
+          content="https://findersfeefinder.xyz/finders_fee_quote.png"
         />
         <meta name="twitter:card" content="summary_large_image"
         />
