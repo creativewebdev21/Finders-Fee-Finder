@@ -198,6 +198,8 @@ export default function Home(/* {id, nft, metadata } */) {
         />
         <meta name="twitter:card" content="summary_large_image"
         />
+        <meta name="twitter:card" content="https://findersfeefinder.xyz/finders_fee_quote.png"
+        />
         <meta name="twitter:title" content="Finders Fee Finder"
         />
 {/*          <meta name="twitter:description" content=""
