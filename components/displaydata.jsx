@@ -37,15 +37,15 @@ const shortenedAddress = (address) => {
 
 // wrapper function for paginated items
 const DisplayData = ( {asks, asksPerPage} ) => {
-   // We start with an empty list of items.
-   const [currentAsks, setCurrentAsks] = useState(null);
-   const [pageCount, setPageCount] = useState(0);
-   // Here we use item offsets; we could also use page offsets
-   // following the API or data you're working with.
-   const [askOffset, setAskOffset] = useState(0);
-
    // check if asks exist
    if (asks && asks.length > 0){
+      // We start with an empty list of items.
+      const [currentAsks, setCurrentAsks] = useState(null);
+      const [pageCount, setPageCount] = useState(0);
+      // Here we use item offsets; we could also use page offsets
+      // following the API or data you're working with.
+      const [askOffset, setAskOffset] = useState(0);
+
       useEffect(() => {
          // Fetch items from another resources.
          const endOffset = askOffset + asksPerPage;
@@ -65,7 +65,7 @@ const DisplayData = ( {asks, asksPerPage} ) => {
          <ReactPaginate
             breakLabel="..."
             onPageChange={handlePageClick}
-            pageRangeDisplayed={5}
+            pageRangeDisplayed={3}
             pageCount={pageCount}
             previousLabel={"PREV"}
             nextLabel={"NEXT"}
@@ -79,7 +79,11 @@ const DisplayData = ( {asks, asksPerPage} ) => {
       </>
       );
    }else{
-      return null;
+      return (
+         <div className="text-4xl">
+               { "::: NO RESULTS :::" }
+            </div>
+      )
    }
  }
 
