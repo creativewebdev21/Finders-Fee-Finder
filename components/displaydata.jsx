@@ -35,14 +35,16 @@ const shortenedAddress = (address) => {
    return displayAddress
 }
 
+// wrapper function for paginated items
 const DisplayData = ( {asks, asksPerPage} ) => {
-   // check if asks exist
    // We start with an empty list of items.
    const [currentAsks, setCurrentAsks] = useState(null);
    const [pageCount, setPageCount] = useState(0);
    // Here we use item offsets; we could also use page offsets
    // following the API or data you're working with.
    const [askOffset, setAskOffset] = useState(0);
+
+   // check if asks exist
    if (asks && asks.length > 0){
       useEffect(() => {
          // Fetch items from another resources.
