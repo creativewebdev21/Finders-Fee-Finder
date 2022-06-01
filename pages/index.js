@@ -212,7 +212,7 @@ export default function Home(/* {id, nft, metadata } */) {
       <main className="text-white min-h-screen px-0 py-8 flex flex-1 flex-col  items-center">                        
         <Header />
         {loading ? <LoadingHeaderData /> : <DisplayDataHeader inputContract={contractAddress} inputTokenId={tokenId} advancedFilterCB={advancedFilter} setTokenCB={setTokenId} setContractCB={setContractAddress} fetchDataCB={fetchData} count={askCount} />}
-        {loading ? <LoadingData /> : <DisplayData asks={currentData}/>}
+        {loading ? <LoadingData /> : <DisplayData asksPerPage={5} asks={currentData}/>}
       </main>
       <footer className="flex flex-1 px-0 py-8 justify-center items-center border-t-1 border-solid border-t-white">      
         <a className="flex justify-center items-center grow"
