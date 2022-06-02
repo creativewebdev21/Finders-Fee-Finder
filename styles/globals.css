@@ -110,3 +110,47 @@ p {
   background-color: black;
   width: auto;
 }
+
+/* Pagination styles */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  cursor: pointer;
+  margin-top: 30px;
+  align-items: center;
+}
+
+.pagination a {
+  padding: 10px;
+  border-radius: none;
+  border: 2px solid white;
+  color: white;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.pagination__link {
+  font-weight: bold;
+  margin-left: 20px !important;
+  margin-right: 20px !important;
+}
+
+.pagination__link--active a {
+  font-weight: bold;
+  color: #c3f53b;
+  background: black;
+  border: 2px solid #c3f53b; 
+}
+
+.pagination__link--disabled a {
+  color: rgb(71 85 105 / var(--tw-text-opacity));
+  border: 2px solid rgb(71 85 105 / var(--tw-text-opacity));
+}
+
+/* hide prev/next buttons on mobiles */
+@media only screen and (max-width: 768px) {
+  .pagination__link {
+    display: none;
+  }
+}

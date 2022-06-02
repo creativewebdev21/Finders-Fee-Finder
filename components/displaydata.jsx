@@ -1,8 +1,10 @@
+import { useState, useEffect } from "react";
 import { useNFT, useNFTMetadata } from "@zoralabs/nft-hooks"
 import { NFTPreview, MediaConfiguration } from "@zoralabs/nft-components"
 import { Popover } from "@headlessui/react"
 import Link from 'next/link';
 import { useAccount, useEnsName, etherscanBlockExplorers } from "wagmi";
+import ReactPaginate from "react-paginate";
 import MoreInfo from "./moreInfo";
 
 
@@ -33,7 +35,59 @@ const shortenedAddress = (address) => {
    return displayAddress
 }
 
-const DisplayData = ({ asks }) => {
+// wrapper function for paginated items
+const DisplayData = ( {asks, asksPerPage} ) => {
+   // We start with an empty list of items.
+   const [currentAsks, setCurrentAsks] = useState(null);
+   const [pageCount, setPageCount] = useState(0);
+   // Here we use item offsets; we could also use page offsets
+   // following the API or data you're working with.
+   const [askOffset, setAskOffset] = useState(0);
+   useEffect(() => {
+      // check if asks exist
+      if (asks && asks.length > 0){
+         // Fetch items from another resources.
+         const endOffset = askOffset + asksPerPage;
+         setCurrentAsks(asks.slice(askOffset, endOffset));
+         setPageCount(Math.ceil(asks.length / asksPerPage));
+      }
+   }, [asks, askOffset, asksPerPage]);
+   // check if asks exist
+   if (asks && asks.length > 0){
+      // Invoke when user click to request another page.
+      const handlePageClick = (event) => {
+         const newOffset = (event.selected * asksPerPage) % asks.length;
+         setAskOffset(newOffset);
+      };
+      return (
+      <>
+         <Items asks={currentAsks} />
+         <ReactPaginate
+            breakLabel="..."
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={3}
+            pageCount={pageCount}
+            previousLabel={"PREV"}
+            nextLabel={"NEXT"}
+            renderOnZeroPageCount={null}
+            containerClassName={"pagination"}
+            previousLinkClassName={"pagination__link"}
+            nextLinkClassName={"pagination__link"}
+            disabledClassName={"pagination__link--disabled"}
+            activeClassName={"pagination__link--active"}
+         />
+      </>
+      );
+   }else{
+      return (
+         <div className="text-4xl">
+               { "::: NO RESULTS :::" }
+            </div>
+      )
+   }
+ }
+
+const Items = ({ asks }) => {
 
    const { data: account, isError: accountError, isLoading: accountLoading } = useAccount(); 
    return (
