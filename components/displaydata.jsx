@@ -37,28 +37,28 @@ const shortenedAddress = (address) => {
 
 // wrapper function for paginated items
 const DisplayData = ( {asks, asksPerPage} ) => {
-   // check if asks exist
-   if (asks && asks.length > 0){
-      // We start with an empty list of items.
-      const [currentAsks, setCurrentAsks] = useState(null);
-      const [pageCount, setPageCount] = useState(0);
-      // Here we use item offsets; we could also use page offsets
-      // following the API or data you're working with.
-      const [askOffset, setAskOffset] = useState(0);
-
-      useEffect(() => {
+   // We start with an empty list of items.
+   const [currentAsks, setCurrentAsks] = useState(null);
+   const [pageCount, setPageCount] = useState(0);
+   // Here we use item offsets; we could also use page offsets
+   // following the API or data you're working with.
+   const [askOffset, setAskOffset] = useState(0);
+   useEffect(() => {
+      // check if asks exist
+      if (asks && asks.length > 0){
          // Fetch items from another resources.
          const endOffset = askOffset + asksPerPage;
          setCurrentAsks(asks.slice(askOffset, endOffset));
          setPageCount(Math.ceil(asks.length / asksPerPage));
-      }, [asks, askOffset, asksPerPage]);
-   
+      }
+   }, [asks, askOffset, asksPerPage]);
+   // check if asks exist
+   if (asks && asks.length > 0){
       // Invoke when user click to request another page.
       const handlePageClick = (event) => {
-      const newOffset = (event.selected * asksPerPage) % asks.length;
-      setAskOffset(newOffset);
+         const newOffset = (event.selected * asksPerPage) % asks.length;
+         setAskOffset(newOffset);
       };
-   
       return (
       <>
          <Items asks={currentAsks} />
